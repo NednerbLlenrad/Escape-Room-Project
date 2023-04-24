@@ -143,6 +143,7 @@
   <ItemGroup>
     <ClInclude Include="gameObject.h" />
     <ClInclude Include="player.h" />
+    <ClInclude Include="Trashcan.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
