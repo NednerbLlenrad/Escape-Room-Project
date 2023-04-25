@@ -65,7 +65,7 @@ int main()
         animationTime = clockA.restart().asSeconds();
 
         //clear window
-      //  window.clear();
+         window.clear();
 
         // Drag the trash can if it's draggable
         if (trashcan.getDraggable())
