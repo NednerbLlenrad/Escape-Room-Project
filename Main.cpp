@@ -155,6 +155,10 @@ int main()
             }
         }
 
+        // Restart the clocks after updating and rendering
+        animationTime = clockA.restart().asSeconds();
+       
+
         //clear window
         window.clear();
         //draw background
@@ -214,7 +218,7 @@ int main()
             trashcan.draw(window);
             //draws the countdown
             window.draw(countdownTxt);
-            ;
+            
             // draw the sprite in the window
             player.draw(window);
         }
@@ -229,8 +233,7 @@ int main()
         // Display the window (only once per frame)
         window.display();
 
-        // Restart the clocks after updating and rendering
-        clockA.restart();
+        
     }
 
     return EXIT_SUCCESS;
