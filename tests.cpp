@@ -17,6 +17,13 @@ void testWinCondition() {
 
 void testObjectInteraction() {
     // Implement the test case for object interaction here
+            //// Drag the trash can if it's draggable
+        //if (trashcan.getDraggable())
+        //{
+        //    trashcan.drag(window);
+        //}
+        //Steal this code for test code
+
 }
 
 void testInventorySystem() {

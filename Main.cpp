@@ -5,6 +5,14 @@
 #include "Trashcan.hpp"
 #include "tests.h"
 
+//Temp place for functions
+// Function to reset the game state
+void resetGame(float& countdownTime, Player& player, sf::Clock& clock) {
+    countdownTime = 61;
+    player.setPosition(sf::Vector2f(500, 500)); // Reset player position
+    // Reset other game elements as needed
+    clock.restart(); // Restart the countdown clock
+}
 
 int main()
 {
@@ -52,6 +60,16 @@ int main()
     gameOverText.setPosition(200, 300); // Set the position of the "GAME OVER" text
     gameOverText.setFillColor(sf::Color::Red); // Set the color of the text
 
+    // Create a button for restarting the game
+    sf::RectangleShape restartButton(sf::Vector2f(200, 50));
+    restartButton.setFillColor(sf::Color(128, 128, 128)); // Set button color
+    restartButton.setPosition(412, 400); // Set button position
+
+    // Create a text label for the restart button
+    sf::Text restartButtonText("RESTART", font, 30);
+    restartButtonText.setPosition(440, 405); // Set label position
+
+
 
     //clock+ time for animation
     sf::Clock clockA;
@@ -76,6 +94,18 @@ int main()
 
         }
 
+        // Check for mouse clicks on the restart button
+        if (isGameOver && event.type == sf::Event::MouseButtonPressed) {
+            if (event.mouseButton.button == sf::Mouse::Left) {
+                sf::Vector2f mousePos = window.mapPixelToCoords(sf::Mouse::getPosition(window));
+                if (restartButton.getGlobalBounds().contains(mousePos)) {
+                    // Restart the game
+                    isGameOver = false;
+                    resetGame(countdownTime, player, clock);
+                }
+            }
+        }
+    
       
 
         // Update the Countdown
@@ -94,48 +124,44 @@ int main()
         //clear window
         window.clear();
 
-        // Drag the trash can if it's draggable
-        if (trashcan.getDraggable())
-        {
-            trashcan.drag(window);
-        }
 
         //draw background
         window.draw(background);
 
-        
-       
-        
-        //update player
-        player.update(animationTime);
 
-        //check for collisions with walls
-        player.handleWallCollisions();
-     
-        //check for object collisions
+        // Update player and handle collisions only if the game is not over
+        if (!isGameOver) {
+            // Drag the trash can if it's draggable
+            if (trashcan.getDraggable()) {
+                trashcan.drag(window);
+            }
 
-        // draw the sprite in the window
-        player.draw(window);
+            player.update(animationTime);
+            player.handleWallCollisions();
 
-        //Draw Trash
-        trashcan.draw(window);
+            // Draw the sprite and trash can
+            player.draw(window);
+            trashcan.draw(window);
 
-        // Draw the countdown
-        window.draw(countdownTxt);
+            // Draw the countdown
+            window.draw(countdownTxt);
+        }
 
-
-        // If the game is over, draw the "GAME OVER" message
+        // If the game is over, draw the "GAME OVER" message and restart button // Add Menu Button when there is a menu
         if (isGameOver) {
             window.draw(gameOverText);
+            window.draw(restartButton);
+            window.draw(restartButtonText);
         }
+
         // Display the window (only once per frame)
         window.display();
-        // If the game is over, you can close the window, return to the menu, or implement any other behavior
-        if (isGameOver) {
-            // Close the game window
-            //window.close();
-            // Additional behavior can be implemented here, such as returning to the menu or displaying a fail screen
-        }
+        //// If the game is over, you can close the window, return to the menu, or implement any other behavior
+        //if (isGameOver) {
+        //    // Close the game window
+        //    window.close();
+        //    // Additional behavior can be implemented here, such as returning to the menu or displaying a fail screen
+        //}
 
         // Restart the clocks after updating and rendering
         clockA.restart();
