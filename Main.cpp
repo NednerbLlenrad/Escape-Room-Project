@@ -28,14 +28,14 @@ int main()
 
 
 
-
     //TrashCan
     sf::Texture trashTex;
     trashTex.loadFromFile("images/bins.png");
     TrashCan trashcan(sf::IntRect(0, 0, 128, 256), trashTex, sf::Vector2f(32.0f, 32.0f));
     trashcan.setDraggable(true); // Set isDraggable to true
 
-
+    // Create a boolean variable to track whether the game is over or not
+    bool isGameOver = false;
 
     //Countdown
     sf::Font font;
@@ -46,6 +46,12 @@ int main()
     sf::Clock clock;
     //Countdown Value
     float countdownTime = 61;
+
+    // Create an sf::Text object for the "GAME OVER" message
+    sf::Text gameOverText("GAME OVER", font, 80);
+    gameOverText.setPosition(200, 300); // Set the position of the "GAME OVER" text
+    gameOverText.setFillColor(sf::Color::Red); // Set the color of the text
+
 
     //clock+ time for animation
     sf::Clock clockA;
@@ -73,16 +79,20 @@ int main()
       
 
         // Update the Countdown
-        sf::Time elapsed = clock.restart();
-        countdownTime -= elapsed.asSeconds();
-        int countdownInt = static_cast<int>(countdownTime); // Convert the float to an integer
-        countdownTxt.setString(std::to_string(countdownInt)); // Set the text to the integer string
+        // Update the Countdown only if the game is not over
+        if (!isGameOver) {
+            sf::Time elapsed = clock.restart(); // Get elapsed time and restart the clock
+            countdownTime -= elapsed.asSeconds();
+            int countdownInt = static_cast<int>(countdownTime);
+            countdownTxt.setString(std::to_string(countdownInt));
 
-        //update animation time
-        animationTime = clockA.restart().asSeconds();
-
+            // If the countdown reaches zero or less, set isGameOver to true
+            if (countdownTime <= 0) {
+                isGameOver = true;
+            }
+        }
         //clear window
-         window.clear();
+        window.clear();
 
         // Drag the trash can if it's draggable
         if (trashcan.getDraggable())
@@ -110,20 +120,26 @@ int main()
         //Draw Trash
         trashcan.draw(window);
 
-        //draws the countdown
+        // Draw the countdown
         window.draw(countdownTxt);
-;
-        // display the window
-        window.display();
 
-        //Countdown reached result presumably due to a failed attempt
-        if (countdownTime <= 0)
-        {
-            //Close the game? Return to menu? Fail screen?
-            window.close();
+
+        // If the game is over, draw the "GAME OVER" message
+        if (isGameOver) {
+            window.draw(gameOverText);
         }
+        // Display the window (only once per frame)
+        window.display();
+        // If the game is over, you can close the window, return to the menu, or implement any other behavior
+        if (isGameOver) {
+            // Close the game window
+            //window.close();
+            // Additional behavior can be implemented here, such as returning to the menu or displaying a fail screen
+        }
+
+        // Restart the clocks after updating and rendering
+        clockA.restart();
     }
-  
 
     return EXIT_SUCCESS;
 }
