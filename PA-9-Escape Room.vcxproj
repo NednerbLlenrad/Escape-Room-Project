@@ -133,6 +133,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Buttons.cpp" />
     <ClCompile Include="gameObject.cpp" />
     <ClCompile Include="HitboxAddition.cpp" />
     <ClCompile Include="Main.cpp" />
@@ -144,6 +145,7 @@
     <Image Include="Assets.png" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Buttons.h" />
     <ClInclude Include="Chain.hpp" />
     <ClInclude Include="Desk.hpp" />
     <ClInclude Include="gameObject.h" />

@@ -6,36 +6,25 @@
 #include "Chain.hpp"
 #include "Desk.hpp"
 #include "InteractableClassObject.hpp"
+#include "Buttons.h"
 
 //Temp place for functions
-// Function to reset the game state
-void resetGame(float& countdownTime, Player& player, sf::Clock& clock, InteractableObject& trash, InteractableObject& bed,
-    Chain& chain, InteractableObject& toilet, InteractableObject& sink, InteractableObject& chair, InteractableObject& vent, bool checkT, bool checkC) {
-    countdownTime = 61;
-    player.setPosition(sf::Vector2f(500, 500)); // Reset player position
-    // Reset other game elements as needed
-    trash.reset();
-    checkT = false;
-    bed.reset();
-    toilet.reset();
-    sink.reset();
-    chair.reset();
-    vent.reset();
-    chain.reset();
-    checkC = false;
-    clock.restart(); // Restart the countdown clock
-}
+
 
 int main()
 {
     
-    // Run test cases
-    //testSpriteLoading();
-    //testPlayerMovement();
-    //testWinCondition();
-    //testObjectInteraction();
-    //testInventorySystem();
-
+    //------------------------------Run test cases--------------------------------------------\\
+    
+    void testPlayerMovement();
+    void testObjectInteraction();
+    void testResetGame();
+    void testCountdown();
+    void testGameOver();
+    void testSpriteLoading();
+    //void testWinCondition();
+    //void testInventorySystem();
+    //------------------------------------Test End----------------------------------------------\\
 
     // create a window
     sf::RenderWindow window(sf::VideoMode(1000, 750), "EscapeRoom");
@@ -239,12 +228,6 @@ int main()
 
         // Display the window (only once per frame)
         window.display();
-        //// If the game is over, you can close the window, return to the menu, or implement any other behavior
-        //if (isGameOver) {
-        //    // Close the game window
-        //    window.close();
-        //    // Additional behavior can be implemented here, such as returning to the menu or displaying a fail screen
-        //}
 
         // Restart the clocks after updating and rendering
         clockA.restart();

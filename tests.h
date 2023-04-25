@@ -1,10 +1,14 @@
 // tests.h
 
-#pragma once
+#ifndef TESTS_H
+#define TESTS_H
 
-// Declare the test functions
-void testSpriteLoading();
 void testPlayerMovement();
-void testWinCondition();
 void testObjectInteraction();
+void testResetGame();
+void testCountdown();
+void testGameOver();
+void testSpriteLoading();
+void testWinCondition();
 void testInventorySystem();
+#endif // TESTS_H
