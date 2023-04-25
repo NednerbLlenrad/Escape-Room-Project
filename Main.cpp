@@ -2,9 +2,20 @@
 #include <SFML/Graphics.hpp>
 #include "player.h"
 #include "Trashcan.hpp"
+#include "tests.h"
+
 
 int main()
 {
+    
+    // Run test cases
+    //testSpriteLoading();
+    //testPlayerMovement();
+    //testWinCondition();
+    //testObjectInteraction();
+    //testInventorySystem();
+
+
     // create a window
     sf::RenderWindow window(sf::VideoMode(1024, 768), "EscapeRoom");
 
