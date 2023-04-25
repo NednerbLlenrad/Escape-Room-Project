@@ -54,8 +54,8 @@ public:
     float distanceFromPlayer(Player player);
 
     //Virtual function for interaction
-    bool interaction(sf::RenderWindow& window, Player player);
-    virtual void interactionType(){}
+    bool interaction(sf::RenderWindow& window, Player player, sf::IntRect shift);
+    virtual void interactionType(sf::IntRect shift){}
    
     //Handle dragging
     void drag(sf::RenderWindow& window, Player player);

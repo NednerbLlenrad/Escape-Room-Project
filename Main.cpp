@@ -2,22 +2,27 @@
 #include <SFML/Graphics.hpp>
 #include <iostream>
 #include "player.h"
-#include "Trashcan.hpp"
-#include "Bed.hpp"
 #include "tests.h"
-#include "Desk.hpp"
-#include "Toilet.hpp"
-#include "Sink.hpp"
-#include "Chair.hpp"
 #include "Chain.hpp"
-#include "Vent.hpp"
+#include "Desk.hpp"
+#include "InteractableClassObject.hpp"
 
 //Temp place for functions
 // Function to reset the game state
-void resetGame(float& countdownTime, Player& player, sf::Clock& clock) {
+void resetGame(float& countdownTime, Player& player, sf::Clock& clock, InteractableObject& trash, InteractableObject& bed,
+    Chain& chain, InteractableObject& toilet, InteractableObject& sink, InteractableObject& chair, InteractableObject& vent, bool checkT, bool checkC) {
     countdownTime = 61;
     player.setPosition(sf::Vector2f(500, 500)); // Reset player position
     // Reset other game elements as needed
+    trash.reset();
+    checkT = false;
+    bed.reset();
+    toilet.reset();
+    sink.reset();
+    chair.reset();
+    vent.reset();
+    chain.reset();
+    checkC = false;
     clock.restart(); // Restart the countdown clock
 }
 
@@ -43,55 +48,46 @@ int main()
 
 
 
+    //-----------------------------------OBJECT INITIALIZATION-----------------------------------\\
     //TrashCan
-    sf::Texture trashTex;
-    trashTex.loadFromFile("images/bins.png");
-    TrashCan trashcan(sf::IntRect(0, 0, 128, 256), trashTex, sf::Vector2f(267, 468));
-    trashcan.setDraggable(false); // Set isDraggable to true
+    sf::Texture trashtex;
+    trashtex.loadFromFile("images/bins.png");
+    InteractableObject trashcan(sf::IntRect(0, 0, 128, 256), trashtex, sf::Vector2f(267, 468),false,57,468,.80f);
     bool trashCheck = false;
     //Bed
     sf::Texture BedTex;
     BedTex.loadFromFile("images/bed.png");
-    Bed bed(sf::IntRect(0, 0, 512, 512), BedTex, sf::Vector2f(267, 468));
-    bed.setDraggable(false); // Set isDraggable to false
-
+    InteractableObject bed(sf::IntRect(0, 0, 512, 512), BedTex, sf::Vector2f(267, 468),false, 550,240,0.8);
     //Desk
     sf::Texture DeskTex;
     DeskTex.loadFromFile("images/desk.png");
-    Desk desk(sf::IntRect(0, 0, 256, 256), DeskTex, sf::Vector2f(267, 468));
-    desk.setDraggable(false); // Set isDraggable to false
-
+    Desk desk(sf::IntRect(0, 0, 256, 256), DeskTex, sf::Vector2f(267, 468), false);
     //Toilet
     sf::Texture toiletTex;
     toiletTex.loadFromFile("images/Toilet.png");
-    Toilet toilet(sf::IntRect(0, 0, 128, 256), toiletTex, sf::Vector2f(267, 468));
-    toilet.setDraggable(false); // Set isDraggable to false
-
+    InteractableObject toilet(sf::IntRect(0, 0, 128, 256), toiletTex, sf::Vector2f(267, 468),false,510,275,1.0);
     //Sink
     sf::Texture sinkTex;
     sinkTex.loadFromFile("images/sink.png");
-    Sink sink(sf::IntRect(0, 0, 128, 256), sinkTex, sf::Vector2f(267, 468));
-    sink.setDraggable(false); // Set isDraggable to false
-
+    InteractableObject sink(sf::IntRect(0, 0, 128, 256), sinkTex, sf::Vector2f(267, 468),false,400,360,1.0);
     //Chair
     sf::Texture chairTex;
     chairTex.loadFromFile("images/chair.png");
-    Chair chair(sf::IntRect(0, 0, 128, 256), chairTex, sf::Vector2f(267, 468));
-    chair.setDraggable(false); // Set isDraggable to false
+    InteractableObject chair(sf::IntRect(0, 0, 128, 256), chairTex, sf::Vector2f(267, 468),false,220,350,1.0);
     bool chairCheck = false;
     //Chain
     sf::Texture chainTex;
     chainTex.loadFromFile("images/chain.png");
     Chain chain(sf::IntRect(0, 0, 128, 128), chainTex, sf::Vector2f(267, 468));
     chain.setDraggable(false); // Set isDraggable to false
-    
-
     //Vent
     sf::Texture ventTex;
     ventTex.loadFromFile("images/vent.png");
-    Vent vent(sf::IntRect(0, 0, 192, 128), ventTex, sf::Vector2f(267, 468));
-    vent.setDraggable(false); // Set isDraggable to false
-   
+    InteractableObject vent(sf::IntRect(0, 0, 192, 128), ventTex, sf::Vector2f(267, 468),false,350,50,1.0);
+    //--------------------------------------------------------------------------------------------------\\
+    
+ 
+ 
     //Countdown
     sf::Font font;
     font.loadFromFile("Font/joystix monospace.ttf");
@@ -118,8 +114,6 @@ int main()
     // Create a text label for the restart button
     sf::Text restartButtonText("RESTART", font, 30);
     restartButtonText.setPosition(440, 405); // Set label position
-
-
 
     //clock+ time for animation
     sf::Clock clockA;
@@ -151,7 +145,7 @@ int main()
                 if (restartButton.getGlobalBounds().contains(mousePos)) {
                     // Restart the game
                     isGameOver = false;
-                    resetGame(countdownTime, player, clock);
+                    resetGame(countdownTime, player, clock, trashcan, bed, chain, toilet, sink, chair, vent, trashCheck, chairCheck);
                 }
             }
         }
@@ -171,19 +165,19 @@ int main()
                 isGameOver = true;
             }
         }
+
         //clear window
         window.clear();
-
-
         //draw background
         window.draw(background);
 
-
         // Update player and handle collisions only if the game is not over
         if (!isGameOver) {
-            // Drag the trash can if it's draggable
 
-            if (trashcan.interaction(window, player) == true)
+            //Object Interactions
+            // 
+            // Drag the trash can if it's draggable
+            if (trashcan.interaction(window, player, sf::IntRect(160, 0, 128, 256)) == true)
             {
                 trashcan.setDraggable(true);//allows chair to be dragged
                 trashCheck = true;
@@ -192,16 +186,15 @@ int main()
             {
                 trashcan.drag(window, player);
             }
-            bool flippedCheck = trashcan.interaction(window, player);
+            bool flippedCheck = trashcan.interaction(window, player, sf::IntRect(160, 0, 128, 256));
             //Unmake the bed
-            bed.interaction(window, player);
+            bed.interaction(window, player, sf::IntRect(512, 0, 512, 512));
             //Open toilet
-            toilet.interaction(window, player);
+            toilet.interaction(window, player, sf::IntRect(128, 0, 128, 256));
             //Turn on sink
-            sink.interaction(window, player);
+            sink.interaction(window, player, sf::IntRect(128, 0, 128, 128));
             //Chain Breaking
-
-            if (chain.interaction(window, player) == true)
+            if (chain.interaction(window, player, sf::IntRect()) == true)
             {
                 chair.setDraggable(true);//allows chair to be dragged
                 chairCheck = true;
@@ -214,8 +207,9 @@ int main()
             //Vent
             if (trashCheck == true && chairCheck == true)//Checks that the garbage has been flipped and chair is draggable,
             {                                              //Would also check for screwdriver once implemented.
-                vent.interaction(window, player);
+                vent.interaction(window, player, sf::IntRect(192, 0, 192, 128));
             }
+            //-------------------------------------------------------------\\
 
             player.update(animationTime);
             player.handleWallCollisions();

@@ -30,6 +30,9 @@
     <ClCompile Include="HitboxAddition.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="TextPopup.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Assets.png">
@@ -43,34 +46,22 @@
     <ClInclude Include="gameObject.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Trashcan.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="tests.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="HitboxAddition.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Bed.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Desk.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Toilet.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Sink.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Chair.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Chain.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Vent.hpp">
+    <ClInclude Include="TextPopup.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="InteractableClassObject.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

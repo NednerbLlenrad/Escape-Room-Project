@@ -144,19 +144,14 @@
     <Image Include="Assets.png" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Bed.hpp" />
     <ClInclude Include="Chain.hpp" />
-    <ClInclude Include="Chair.hpp" />
     <ClInclude Include="Desk.hpp" />
     <ClInclude Include="gameObject.h" />
     <ClInclude Include="HitboxAddition.h" />
+    <ClInclude Include="InteractableClassObject.hpp" />
     <ClInclude Include="player.h" />
-    <ClInclude Include="Sink.hpp" />
     <ClInclude Include="tests.h" />
     <ClInclude Include="TextPopup.h" />
-    <ClInclude Include="Toilet.hpp" />
-    <ClInclude Include="Trashcan.hpp" />
-    <ClInclude Include="Vent.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

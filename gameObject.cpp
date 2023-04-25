@@ -12,7 +12,7 @@ float gameObject::distanceFromPlayer(Player player)
 	return std::sqrt(dx * dx + dy * dy);
 }
 
-bool gameObject::interaction(sf::RenderWindow& window, Player player)
+bool gameObject::interaction(sf::RenderWindow& window, Player player, sf::IntRect shift)
 {
 	// Get the bounds of the object's sprite
 	sf::FloatRect bounds = mObjectBody.getGlobalBounds();
@@ -24,7 +24,7 @@ bool gameObject::interaction(sf::RenderWindow& window, Player player)
             sf::Vector2f mousePositionF = window.mapPixelToCoords(mousePositionI);
             if (bounds.contains(mousePositionF))
             {
-                interactionType();
+                interactionType(shift);
                 return true;
             }
             else

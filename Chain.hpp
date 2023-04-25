@@ -12,9 +12,13 @@ public:
         mObjectBody.setPosition(position);
     }
 
-    void interactionType() override
+    void interactionType(sf::IntRect shift) override
     {
         mObjectBody.setScale(0, 0);
     }
 
+    void reset()
+    {
+        mObjectBody.setScale(1.0f, 1.0f);
+    }
 };
