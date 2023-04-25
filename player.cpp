@@ -1,6 +1,7 @@
 #include "player.h"
 
-player::player(sf::Texture& texture, sf::Vector2f origin)
+Player::Player(sf::Texture& texture, sf::Vector2f position)
+	: mHitBoxAdd(mBody, 0, 0, 128, 128)
 {
 	mHasScrewDriver = false;
 	mHasNailFile = false;
@@ -14,39 +15,43 @@ player::player(sf::Texture& texture, sf::Vector2f origin)
 	mImage.width = mSize.x;
 	mImage.height = mSize.y;
 
-	mOrigin = origin;
-	mBody.setOrigin(origin);
+	mBody.setPosition(position);
 	mTotalTime = 0;
+
+	mHitBoxAdd.setOffsets(sf::Vector2f(25, 100));
+	mHitBoxAdd.setSize(sf::Vector2f(60, 20));
+	mHitBoxAdd.setPosition();
 
 	mBody.setTexture(texture);
 	mBody.setTextureRect(mImage);
+
 }
 
-void player::update(float deltaTime)
+void Player::update(float deltaTime)
 {
 	mTotalTime += deltaTime;
 	sf::Vector2f movement(0.0, 0.0);
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
 	{
-		movement.y += -0.5;
+		movement.y += -0.55;
 		mImage.top = 2 * mSize.y; //swap sprite row
 	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
 	{
-		movement.y += 0.5;
+		movement.y += 0.55;
 		mImage.top = 0 * mSize.y;//swap sprite row
 
 	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
 	{
-		movement.x += 0.5;
+		movement.x += 0.55;
 		mImage.top = 1 * mSize.y;//swap sprite row
 
 	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
 	{
-		movement.x += -0.5;
+		movement.x += -0.55;
 		mImage.top = 3 * mSize.y;//swap sprite row
 
 	}
@@ -65,31 +70,72 @@ void player::update(float deltaTime)
 	}
 
 	mBody.setTextureRect(mImage); //update texture
-	mBody.move(movement); //move
+
+		mBody.move(movement); //move
+
+		//update hitbox
+		mHitBoxAdd.update();
 
 }
 
-void player::draw(sf::RenderWindow& window)
+void Player::draw(sf::RenderWindow& window)
 {
 	window.draw(mBody);
+	mHitBoxAdd.draw(window);
 }
 
-bool player::getHasScrewDriver() const
+void Player::handleWallCollisions()
+{
+	if (mBody.getPosition().x < -20)
+	{
+		mBody.setPosition(sf::Vector2f(-20, mBody.getPosition().y));
+	}
+	if (mBody.getPosition().x > 940)
+	{
+		mBody.setPosition(sf::Vector2f(940,mBody.getPosition().y));
+	}
+	if (mBody.getPosition().y > 648)
+	{
+		mBody.setPosition(sf::Vector2f(mBody.getPosition().x, 648));
+	}
+	if (mBody.getPosition().y < 384)
+	{
+		mBody.setPosition(sf::Vector2f(mBody.getPosition().x, 384));
+	}
+}
+
+bool Player::getHasScrewDriver() const
 {
 	return mHasScrewDriver;
 }
 
-bool player::getHasNailFile() const
+bool Player::getHasNailFile() const
 {
 	return mHasNailFile;
 }
 
-void player::setHasScrewDriver(const bool ToF)
+void Player::setHasScrewDriver(const bool ToF)
 {
 	mHasScrewDriver = ToF;
 }
 
-void player::setHasNailFile(const bool ToF)
+void Player::setHasNailFile(const bool ToF)
 {
 	mHasNailFile = ToF;
+}
+
+sf::FloatRect Player::getHitBoxGlobalBounds() const
+{
+	return mHitBoxAdd.getGlobalBounds();
+}
+
+
+sf::Vector2f Player::getPosition() const
+{
+	return mBody.getPosition();
+}
+
+void Player::setPosition(const sf::Vector2f newPos)
+{
+	mBody.setPosition(newPos);
 }

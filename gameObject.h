@@ -37,6 +37,7 @@ public:
         return mObjectBody.getPosition();
     }
 
+
     //Draw object
     void draw(sf::RenderWindow& window)
     {

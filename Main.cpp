@@ -1,5 +1,6 @@
 
 #include <SFML/Graphics.hpp>
+#include <iostream>
 #include "player.h"
 #include "Trashcan.hpp"
 #include "tests.h"
@@ -23,7 +24,9 @@ int main()
     // player texture
     sf::Texture texture;
     texture.loadFromFile("images/player.png");
-    player p1(texture, sf::Vector2f(-500, -500));
+    Player player(texture, sf::Vector2f(500, 500));
+
+
 
 
     //TrashCan
@@ -66,6 +69,9 @@ int main()
             }
 
         }
+
+      
+
         // Update the Countdown
         sf::Time elapsed = clock.restart();
         countdownTime -= elapsed.asSeconds();
@@ -87,10 +93,19 @@ int main()
         //draw background
         window.draw(background);
 
+        
+       
+        
         //update player
-        p1.update(animationTime);
+        player.update(animationTime);
+
+        //check for collisions with walls
+        player.handleWallCollisions();
+     
+        //check for object collisions
+
         // draw the sprite in the window
-        p1.draw(window);
+        player.draw(window);
 
         //Draw Trash
         trashcan.draw(window);
@@ -108,6 +123,7 @@ int main()
             window.close();
         }
     }
+  
 
     return EXIT_SUCCESS;
 }
