@@ -3,7 +3,14 @@
 #include <iostream>
 #include "player.h"
 #include "Trashcan.hpp"
+#include "Bed.hpp"
 #include "tests.h"
+#include "Desk.hpp"
+#include "Toilet.hpp"
+#include "Sink.hpp"
+#include "Chair.hpp"
+#include "Chain.hpp"
+#include "Vent.hpp"
 
 //Temp place for functions
 // Function to reset the game state
@@ -26,7 +33,7 @@ int main()
 
 
     // create a window
-    sf::RenderWindow window(sf::VideoMode(1024, 768), "EscapeRoom");
+    sf::RenderWindow window(sf::VideoMode(1000, 750), "EscapeRoom");
 
     //player instantiation
     // player texture
@@ -39,12 +46,52 @@ int main()
     //TrashCan
     sf::Texture trashTex;
     trashTex.loadFromFile("images/bins.png");
-    TrashCan trashcan(sf::IntRect(0, 0, 128, 256), trashTex, sf::Vector2f(32.0f, 32.0f));
-    trashcan.setDraggable(true); // Set isDraggable to true
+    TrashCan trashcan(sf::IntRect(0, 0, 128, 256), trashTex, sf::Vector2f(267, 468));
+    trashcan.setDraggable(false); // Set isDraggable to true
+    bool trashCheck = false;
+    //Bed
+    sf::Texture BedTex;
+    BedTex.loadFromFile("images/bed.png");
+    Bed bed(sf::IntRect(0, 0, 512, 512), BedTex, sf::Vector2f(267, 468));
+    bed.setDraggable(false); // Set isDraggable to false
 
-    // Create a boolean variable to track whether the game is over or not
-    bool isGameOver = false;
+    //Desk
+    sf::Texture DeskTex;
+    DeskTex.loadFromFile("images/desk.png");
+    Desk desk(sf::IntRect(0, 0, 256, 256), DeskTex, sf::Vector2f(267, 468));
+    desk.setDraggable(false); // Set isDraggable to false
 
+    //Toilet
+    sf::Texture toiletTex;
+    toiletTex.loadFromFile("images/Toilet.png");
+    Toilet toilet(sf::IntRect(0, 0, 128, 256), toiletTex, sf::Vector2f(267, 468));
+    toilet.setDraggable(false); // Set isDraggable to false
+
+    //Sink
+    sf::Texture sinkTex;
+    sinkTex.loadFromFile("images/sink.png");
+    Sink sink(sf::IntRect(0, 0, 128, 256), sinkTex, sf::Vector2f(267, 468));
+    sink.setDraggable(false); // Set isDraggable to false
+
+    //Chair
+    sf::Texture chairTex;
+    chairTex.loadFromFile("images/chair.png");
+    Chair chair(sf::IntRect(0, 0, 128, 256), chairTex, sf::Vector2f(267, 468));
+    chair.setDraggable(false); // Set isDraggable to false
+    bool chairCheck = false;
+    //Chain
+    sf::Texture chainTex;
+    chainTex.loadFromFile("images/chain.png");
+    Chain chain(sf::IntRect(0, 0, 128, 128), chainTex, sf::Vector2f(267, 468));
+    chain.setDraggable(false); // Set isDraggable to false
+    
+
+    //Vent
+    sf::Texture ventTex;
+    ventTex.loadFromFile("images/vent.png");
+    Vent vent(sf::IntRect(0, 0, 192, 128), ventTex, sf::Vector2f(267, 468));
+    vent.setDraggable(false); // Set isDraggable to false
+   
     //Countdown
     sf::Font font;
     font.loadFromFile("Font/joystix monospace.ttf");
@@ -54,6 +101,9 @@ int main()
     sf::Clock clock;
     //Countdown Value
     float countdownTime = 61;
+
+    // Create a boolean variable to track whether the game is over or not
+    bool isGameOver = false;
 
     // Create an sf::Text object for the "GAME OVER" message
     sf::Text gameOverText("GAME OVER", font, 80);
@@ -132,19 +182,58 @@ int main()
         // Update player and handle collisions only if the game is not over
         if (!isGameOver) {
             // Drag the trash can if it's draggable
-            if (trashcan.getDraggable()) {
-                trashcan.drag(window);
+
+            if (trashcan.interaction(window, player) == true)
+            {
+                trashcan.setDraggable(true);//allows chair to be dragged
+                trashCheck = true;
+            }
+            if (trashcan.getDraggable())
+            {
+                trashcan.drag(window, player);
+            }
+            bool flippedCheck = trashcan.interaction(window, player);
+            //Unmake the bed
+            bed.interaction(window, player);
+            //Open toilet
+            toilet.interaction(window, player);
+            //Turn on sink
+            sink.interaction(window, player);
+            //Chain Breaking
+
+            if (chain.interaction(window, player) == true)
+            {
+                chair.setDraggable(true);//allows chair to be dragged
+                chairCheck = true;
+            }
+            //Makes chair draggable
+            if (chair.getDraggable())
+            {
+                chair.drag(window, player);
+            }
+            //Vent
+            if (trashCheck == true && chairCheck == true)//Checks that the garbage has been flipped and chair is draggable,
+            {                                              //Would also check for screwdriver once implemented.
+                vent.interaction(window, player);
             }
 
             player.update(animationTime);
             player.handleWallCollisions();
 
-            // Draw the sprite and trash can
-            player.draw(window);
+            //Draw Objects
+            vent.draw(window);
+            bed.draw(window);
+            desk.draw(window);
+            toilet.draw(window);
+            sink.draw(window);
+            chair.draw(window);
+            chain.draw(window);
             trashcan.draw(window);
-
-            // Draw the countdown
+            //draws the countdown
             window.draw(countdownTxt);
+            ;
+            // draw the sprite in the window
+            player.draw(window);
         }
 
         // If the game is over, draw the "GAME OVER" message and restart button // Add Menu Button when there is a menu

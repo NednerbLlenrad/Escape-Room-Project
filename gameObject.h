@@ -1,5 +1,6 @@
 #pragma once
 #include <SFML/Graphics.hpp>
+#include "player.h"
 
 //base class for all game objects
 class gameObject
@@ -37,6 +38,11 @@ public:
         return mObjectBody.getPosition();
     }
 
+    //Set Size
+    void setSize(sf::IntRect nSize)
+    {
+        mObjectBody.setTextureRect(nSize);
+    }
 
     //Draw object
     void draw(sf::RenderWindow& window)
@@ -44,11 +50,15 @@ public:
         window.draw(mObjectBody);
     }
 
-    //Virtual function for interaction
-    virtual void interaction() {}
+    //Check if player is close enough
+    float distanceFromPlayer(Player player);
 
+    //Virtual function for interaction
+    bool interaction(sf::RenderWindow& window, Player player);
+    virtual void interactionType(){}
+   
     //Handle dragging
-    void drag(sf::RenderWindow& window);
+    void drag(sf::RenderWindow& window, Player player);
 
 protected:
 	sf::Sprite mObjectBody;
