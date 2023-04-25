@@ -1,11 +1,19 @@
 
 #include <SFML/Graphics.hpp>
+#include "player.h"
 #include "Trashcan.hpp"
 
 int main()
 {
     // create a window
-    sf::RenderWindow window(sf::VideoMode(1000, 750), "EscapeRoom");
+    sf::RenderWindow window(sf::VideoMode(1024, 768), "EscapeRoom");
+
+    //player instantiation
+    // player texture
+    sf::Texture texture;
+    texture.loadFromFile("images/player.png");
+    player p1(texture, sf::Vector2f(-500, -500));
+
 
     //TrashCan
     sf::Texture trashTex;
@@ -25,23 +33,10 @@ int main()
     //Countdown Value
     float countdownTime = 61;
 
-
-
-    //Player
-    // create a texture and load an image from a file
-    sf::Texture texture;
-    if (!texture.loadFromFile("images/player.png")) {
-        // error handling
-        return EXIT_FAILURE;
-    }
-    // create a sprite and set its texture
-    sf::Sprite player(texture);
-    player.setTextureRect(sf::IntRect(0, 0, 128, 128)); //set visible texture to only first sprite on sheet
-    //set player origin
-    player.setOrigin(sf::Vector2f(-400, -500));
-
-
-
+    //clock+ time for animation
+    sf::Clock clockA;
+    float animationTime = 0;
+        
     //background setup
     sf::RectangleShape background(sf::Vector2f(1000, 750));
     sf::Texture backgroundTexture; 
@@ -66,6 +61,12 @@ int main()
         int countdownInt = static_cast<int>(countdownTime); // Convert the float to an integer
         countdownTxt.setString(std::to_string(countdownInt)); // Set the text to the integer string
 
+        //update animation time
+        animationTime = clockA.restart().asSeconds();
+
+        //clear window
+      //  window.clear();
+
         // Drag the trash can if it's draggable
         if (trashcan.getDraggable())
         {
@@ -75,8 +76,10 @@ int main()
         //draw background
         window.draw(background);
 
+        //update player
+        p1.update(animationTime);
         // draw the sprite in the window
-        window.draw(player);
+        p1.draw(window);
 
         //Draw Trash
         trashcan.draw(window);
