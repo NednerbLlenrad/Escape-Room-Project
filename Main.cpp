@@ -293,11 +293,14 @@ int main()
             //-------------------------------------------------------------\\
 
             
-
+            //player movement controls
             player.update(animationTime);
-            player.handleWallCollisions();
-
+            player.handleWallCollisions(); //prevent wall collisions
            
+            player.ClimbTrash(trashcan); //allow player to clim trash
+           
+           //player.CheckFall(trashcan); //checks if player should fall off trash
+
 
             //Draw Objects
             vent.draw(window);
@@ -367,6 +370,8 @@ int main()
 
             screwDriverFound = false;
             nailFileFound = false;
+            player.setHasNailFile(false);
+            player.setHasScrewDriver(false);
         }
 
         // Display the window (only once per frame)

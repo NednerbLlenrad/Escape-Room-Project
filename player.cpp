@@ -100,9 +100,12 @@ void Player::handleWallCollisions()
 	{
 		mBody.setPosition(sf::Vector2f(mBody.getPosition().x, 648));
 	}
-	if (mBody.getPosition().y < 384)
+	if(mIsOnTrash == false)
 	{
-		mBody.setPosition(sf::Vector2f(mBody.getPosition().x, 384));
+		if (mBody.getPosition().y < 384)
+		{
+			mBody.setPosition(sf::Vector2f(mBody.getPosition().x, 384));
+		}
 	}
 
 	mHitBoxAdd.update();
@@ -158,11 +161,12 @@ void Player::CheckFall(InteractableObject& trash)
 {
 	if (mIsOnTrash == true)
 	{
-		if (mBody.getPosition().x < trash.getPosition().x - 100 || mBody.getPosition().x >= trash.getPosition().x + 228
-			|| mBody.getPosition().y > trash.getPosition().y + 128 || mBody.getPosition().y <= trash.getPosition().y + 60)
+		if (mBody.getPosition().x < trash.getPosition().x - 320 || mBody.getPosition().x >= trash.getPosition().x 
+			|| mBody.getPosition().y > trash.getPosition().y -300 || mBody.getPosition().y <= trash.getPosition().y + 370)
 		{
 			mBody.setPosition(mBody.getPosition().x, 600);
 			mHitBoxAdd.update();
+			mIsOnTrash = false;
 		}
 	}
 }
@@ -177,12 +181,11 @@ void Player::ClimbTrash(InteractableObject& trash)
 
 	float distance = std::sqrt(dx * dx + dy * dy);
 
-	if (distance < 300)
-	{
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Q))
 		{
-			mBody.setPosition(trash.getPosition().x, trash.getPosition().y + 100);
+			mBody.setPosition(trash.getPosition().x - 220, trash.getPosition().y - 430);
 			mHitBoxAdd.update();
+			mIsOnTrash = true;
 		}
-	}
+	
 }
