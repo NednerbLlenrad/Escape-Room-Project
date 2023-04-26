@@ -4,7 +4,7 @@
 class Chain : public gameObject
 {
 public:
-    Chain(sf::IntRect size, sf::Texture& objectTexture, sf::Vector2f origin, bool draggable = false) : gameObject(size, objectTexture, origin, draggable)
+    Chain(sf::IntRect size, sf::Texture& objectTexture, sf::Vector2f origin, bool draggable, bool interacted) : gameObject(size, objectTexture, origin, draggable, interacted)
     {
         mObjectBody.setScale(1.0f, 1.0f);
 
@@ -20,5 +20,6 @@ public:
     void reset()
     {
         mObjectBody.setScale(1.0f, 1.0f);
+        setInteracted(false);
     }
 };

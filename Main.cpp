@@ -39,41 +39,42 @@ int main()
 
 
     //-----------------------------------OBJECT INITIALIZATION-----------------------------------\\
+    // Each Object is initialized with a texture from a png, a location, being able to be dragged, and a scale modifier, 
+    // Also included is a bool for the interact prompt and to remove interactibility from the objects after E is pressed.
     //TrashCan
     sf::Texture trashtex;
     trashtex.loadFromFile("images/bins.png");
-    InteractableObject trashcan(sf::IntRect(0, 0, 128, 256), trashtex, sf::Vector2f(267, 468),false,57,468,.80f);
+    InteractableObject trashcan(sf::IntRect(0, 0, 128, 256), trashtex, sf::Vector2f(267, 468),false,57,468,.80f, false);
     bool trashCheck = false;
     //Bed
     sf::Texture BedTex;
     BedTex.loadFromFile("images/bed.png");
-    InteractableObject bed(sf::IntRect(0, 0, 512, 512), BedTex, sf::Vector2f(267, 468),false, 550,240,0.8);
+    InteractableObject bed(sf::IntRect(0, 0, 512, 512), BedTex, sf::Vector2f(267, 468),false, 550,240,0.8, false);
     //Desk
     sf::Texture DeskTex;
     DeskTex.loadFromFile("images/desk.png");
-    Desk desk(sf::IntRect(0, 0, 256, 256), DeskTex, sf::Vector2f(267, 468), false);
+    Desk desk(sf::IntRect(0, 0, 256, 256), DeskTex, sf::Vector2f(267, 468), false, false);
     //Toilet
     sf::Texture toiletTex;
     toiletTex.loadFromFile("images/Toilet.png");
-    InteractableObject toilet(sf::IntRect(0, 0, 128, 256), toiletTex, sf::Vector2f(267, 468),false,510,275,1.0);
+    InteractableObject toilet(sf::IntRect(0, 0, 128, 256), toiletTex, sf::Vector2f(267, 468),false,510,275,1.0, false);
     //Sink
     sf::Texture sinkTex;
     sinkTex.loadFromFile("images/sink.png");
-    InteractableObject sink(sf::IntRect(0, 0, 128, 256), sinkTex, sf::Vector2f(267, 468),false,400,360,1.0);
+    InteractableObject sink(sf::IntRect(0, 0, 128, 256), sinkTex, sf::Vector2f(267, 468),false,400,360,1.0, false);
     //Chair
     sf::Texture chairTex;
     chairTex.loadFromFile("images/chair.png");
-    InteractableObject chair(sf::IntRect(0, 0, 128, 256), chairTex, sf::Vector2f(267, 468),false,220,350,1.0);
+    InteractableObject chair(sf::IntRect(0, 0, 128, 256), chairTex, sf::Vector2f(267, 468),false,220,350,1.0, false);
     bool chairCheck = false;
     //Chain
     sf::Texture chainTex;
     chainTex.loadFromFile("images/chain.png");
-    Chain chain(sf::IntRect(0, 0, 128, 128), chainTex, sf::Vector2f(267, 468));
-    chain.setDraggable(false); // Set isDraggable to false
+    Chain chain(sf::IntRect(0, 0, 128, 128), chainTex, sf::Vector2f(267, 468), false, false);
     //Vent
     sf::Texture ventTex;
-     ventTex.loadFromFile("images/vent.png");
-   InteractableObject vent(sf::IntRect(0, 0, 192, 128), ventTex, sf::Vector2f(267, 468),false,350,50,1.0);
+    ventTex.loadFromFile("images/vent.png");
+    InteractableObject vent(sf::IntRect(0, 0, 192, 128), ventTex, sf::Vector2f(267, 468),false,350,50,1.0, false);
     //--------------------------------------------------------------------------------------------------\\
     
     //-----------------------------------TOOL INSTANTIATION-----------------------------------\\
@@ -86,7 +87,8 @@ int main()
     bool screwDriverFound = false;
     bool nailFileFound = false;
     //--------------------------------------------------------------------------------------------------\\
-
+    //Countdown Loads a font from a file. This font was a free font taken from Dafont.com
+//     Countdown uses a clock from SFML and a float countdown time of 61 seconds.
     //Countdown
     sf::Font font;
     font.loadFromFile("Font/joystix monospace.ttf");
@@ -239,35 +241,53 @@ int main()
             //Object Interactions
             // 
             // Drag the trash can if it's draggable
-            if (trashcan.interaction(window, player, sf::IntRect(160, 0, 128, 256)) == true)
+            if(trashcan.getInteracted() == false)
             {
-                trashcan.setDraggable(true);//allows chair to be dragged
-                trashCheck = true;
+                if (trashcan.interaction(window, player, sf::IntRect(160, 0, 128, 256)) == true)
+                {
+                    trashcan.setDraggable(true);//allows trash to be dragged
+                    trashCheck = true;
+                    trashcan.setInteracted(true);
+                }
             }
             if (trashcan.getDraggable())
             {
                 trashcan.drag(window, player);
             }
-            bool flippedCheck = trashcan.interaction(window, player, sf::IntRect(160, 0, 128, 256));
             //Unmake the bed
-            if (bed.interaction(window, player, sf::IntRect(512, 0, 512, 512)) == true)
+            if (bed.getInteracted() == false)
             {
-                nailFileFound = true;
+                if (bed.interaction(window, player, sf::IntRect(512, 0, 512, 512)) == true)
+                {
+                    nailFileFound = true;
+                    bed.setInteracted(true);
+                }
             }
             //Open toilet
-            if (toilet.interaction(window, player, sf::IntRect(128, 0, 128, 256)) == true)
+            if (toilet.getInteracted() == false)
             {
-                screwDriverFound = true;
+                if (toilet.interaction(window, player, sf::IntRect(128, 0, 128, 256)) == true)
+                {
+                    screwDriverFound = true;
+                    toilet.setInteracted(true);
+                }
             }
             //Turn on sink
-            sink.interaction(window, player, sf::IntRect(128, 0, 128, 128));
+            if (sink.getInteracted() == false)
+            {
+                if(sink.interaction(window, player, sf::IntRect(128, 0, 128, 128))==true) sink.setInteracted(true);;
+            }
             //Chain Breaking
             if(player.getHasNailFile() == true)
             {
-                if (chain.interaction(window, player, sf::IntRect()) == true)
+                if(chain.getInteracted() == false)
                 {
-                    chair.setDraggable(true);//allows chair to be dragged
-                    chairCheck = true;
+                    if (chain.interaction(window, player, sf::IntRect()) == true)
+                    {
+                        chair.setDraggable(true);//allows chair to be dragged
+                        chairCheck = true;
+                        chair.setInteracted(true);
+                    }
                 }
             }
             //Makes chair draggable
@@ -276,8 +296,8 @@ int main()
                 chair.drag(window, player);
             }
             //Vent
-            if (trashCheck == true && chairCheck == true)//Checks that the garbage has been flipped and chair is draggable,
-            {                                              //Would also check for screwdriver once implemented.
+            if (trashCheck == true && chairCheck == true && screwDriverFound == true)//Checks that the garbage has been flipped and chair is draggable,
+            {                                                                        //Would also check for screwdriver once implemented.
                 vent.interaction(window, player, sf::IntRect(192, 0, 192, 128));
             }
             //-------------------------------------------------------------\\

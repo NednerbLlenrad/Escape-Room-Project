@@ -7,12 +7,13 @@ class gameObject
 {
 public:
     //constructor
-    gameObject(sf::IntRect size, sf::Texture& objectTexture, sf::Vector2f origin, bool draggable = false)
+    gameObject(sf::IntRect size, sf::Texture& objectTexture, sf::Vector2f origin, bool draggable, bool interact)
     {
         mObjectBody.setTexture(objectTexture);
         mObjectBody.setTextureRect(size);
         mObjectBody.setOrigin(origin);
         isDraggable = draggable;
+        minteracted = interact;
     }
 
     //Set Draggable
@@ -20,11 +21,20 @@ public:
     {
         isDraggable = draggable;
     }
-
+    //Set Interacted
+    void setInteracted(bool interacted)
+    {
+        minteracted = interacted;
+    }
     //Get Draggable
     bool getDraggable()
     {
         return isDraggable;
+    }
+    //Get Interacted
+    bool getInteracted()
+    {
+        return minteracted;
     }
     //Set position
     void setPosition(sf::Vector2f position)
@@ -52,7 +62,8 @@ public:
 
     //Check if player is close enough
     float distanceFromPlayer(Player player);
-
+    //Distance from object
+    //float distanceFromObject(InteractableObject& objectTarget);
     //Virtual function for interaction
     bool interaction(sf::RenderWindow& window, Player player, sf::IntRect shift);
     virtual void interactionType(sf::IntRect shift){}
@@ -65,6 +76,7 @@ protected:
 	sf::IntRect mSize; //for determining which chunk of the sprite sheet to display
 	bool isDraggable;
 	bool isDragging = false;
+    bool minteracted = false;
 	sf::Vector2f offset;
 };
 

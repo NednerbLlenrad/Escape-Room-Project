@@ -4,7 +4,7 @@
 class Desk : public gameObject
 {
 public:
-    Desk(sf::IntRect size, sf::Texture& objectTexture, sf::Vector2f origin, bool draggable = false) : gameObject(size, objectTexture, origin, draggable)
+    Desk(sf::IntRect size, sf::Texture& objectTexture, sf::Vector2f origin, bool draggable, bool interacted) : gameObject(size, objectTexture, origin, draggable, interacted)
     {
         mObjectBody.setScale(1.1f, 1.1f);
 

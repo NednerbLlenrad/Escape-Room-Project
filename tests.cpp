@@ -77,7 +77,7 @@ void testObjectInteraction() {
     // Create an interactable object (e.g., trash can)
     sf::Texture trashTex;
     trashTex.loadFromFile("images/bins.png");
-    InteractableObject trashcan(sf::IntRect(0, 0, 128, 256), trashTex, sf::Vector2f(267, 468), false, 57, 468, 0.80f);
+    InteractableObject trashcan(sf::IntRect(0, 0, 128, 256), trashTex, sf::Vector2f(267, 468), false, 57, 468, 0.80f,false);
 
     // Set the trash can to be draggable
     trashcan.setDraggable(true);
@@ -85,7 +85,7 @@ void testObjectInteraction() {
     // Store the initial position of the trash can
     sf::Vector2f initialPosition = trashcan.getPosition();
 
-    // Simulate dragging the trash can
+    // Simulate dragging the trash canbool chairCheck
     // Note: In a real scenario, this would involve user input and window events
     trashcan.setPosition(sf::Vector2f(300, 300)); // Simulate dragging to a new position
 
@@ -156,25 +156,25 @@ void testResetGame() {
     // Load textures using loadFromFile(...)
     sf::Texture trashTex;
     trashTex.loadFromFile("images/bins.png");
-    InteractableObject trashcan(sf::IntRect(0, 0, 128, 256), trashTex, sf::Vector2f(267, 468), false, 57, 468, 0.8f);
+    InteractableObject trashcan(sf::IntRect(0, 0, 128, 256), trashTex, sf::Vector2f(267, 468), false, 57, 468, 0.8f, false);
     sf::Texture BedTex;
     BedTex.loadFromFile("images/bed.png");
-    InteractableObject bed(sf::IntRect(0, 0, 512, 512), BedTex, sf::Vector2f(550, 240), false, 0, 0, 0.8f);
+    InteractableObject bed(sf::IntRect(0, 0, 512, 512), BedTex, sf::Vector2f(550, 240), false, 0, 0, 0.8f, false);
     sf::Texture chainTex;
     chainTex.loadFromFile("images/chain.png");
-    Chain chain(sf::IntRect(0, 0, 128, 128), chainTex, sf::Vector2f(267, 468));
+    Chain chain(sf::IntRect(0, 0, 128, 128), chainTex, sf::Vector2f(267, 468),false, false);
     sf::Texture toiletTex;
     toiletTex.loadFromFile("images/Toilet.png");
-    InteractableObject toilet(sf::IntRect(0, 0, 128, 256), toiletTex, sf::Vector2f(510, 275), false, 0, 0, 1.0f);
+    InteractableObject toilet(sf::IntRect(0, 0, 128, 256), toiletTex, sf::Vector2f(510, 275), false, 0, 0, 1.0f, false);
     sf::Texture sinkTex;
     sinkTex.loadFromFile("images/sink.png");
-    InteractableObject sink(sf::IntRect(0, 0, 128, 128), sinkTex, sf::Vector2f(400, 360), false, 0, 0, 1.0f);
+    InteractableObject sink(sf::IntRect(0, 0, 128, 128), sinkTex, sf::Vector2f(400, 360), false, 0, 0, 1.0f, false);
     sf::Texture chairTex;
     chairTex.loadFromFile("images/chair.png");
-    InteractableObject chair(sf::IntRect(0, 0, 128, 256), chairTex, sf::Vector2f(220, 350), false, 0, 0, 1.0f);
+    InteractableObject chair(sf::IntRect(0, 0, 128, 256), chairTex, sf::Vector2f(220, 350), false, 0, 0, 1.0f, false);
     sf::Texture ventTex;
     ventTex.loadFromFile("images/vent.png");
-    InteractableObject vent(sf::IntRect(0, 0, 192, 128), ventTex, sf::Vector2f(350, 50), false, 0, 0, 1.0f);
+    InteractableObject vent(sf::IntRect(0, 0, 192, 128), ventTex, sf::Vector2f(350, 50), false, 0, 0, 1.0f, false);
 
     // Player
     sf::Texture playerTexture;
