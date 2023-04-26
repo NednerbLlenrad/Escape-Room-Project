@@ -47,3 +47,9 @@ bool Tool::pickUp(Player& player)
 	}
 }
 
+void Tool::setIsPickedUp(const bool ToF)
+{
+	mIsPickedUp = ToF;
+}
+
+

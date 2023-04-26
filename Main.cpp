@@ -378,6 +378,8 @@ int main()
             nailFileFound = false;
             player.setHasNailFile(false);
             player.setHasScrewDriver(false);
+            screwDriver.setIsPickedUp(false);
+            nailFile.setIsPickedUp(false);
         }
 
         // Display the window (only once per frame)

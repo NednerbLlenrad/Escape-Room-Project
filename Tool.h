@@ -14,6 +14,9 @@ public:
 	//allows tool to be picked up 
 	bool pickUp(Player &player);
 
+	//sets is picked up
+	void setIsPickedUp(const bool ToF);
+
 private:
 	bool mIsPickedUp;
 	sf::Sprite mToolBody;
