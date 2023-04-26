@@ -99,11 +99,27 @@ int main()
     //Countdown Value
     float countdownTime = 61;
 
+    //--------------------------------------GAME MENU BUTTONS ----------------------------------------------\\
+
+    bool isMenu = true;
+
+    // Create an sf::Text object for game title
+    sf::Text titleText("THE ESCAPE ROOM", font, 70);
+    titleText.setPosition(50, 100); // Set the position of the text
+
+    // Create a button for starting the game
+    sf::RectangleShape startButton(sf::Vector2f(200, 50));
+    startButton.setFillColor(sf::Color(128, 128, 128)); // Set button color
+    startButton.setPosition(412, 400); // Set button position
+
+    // Create a text label for the restart button
+    sf::Text startButtonText("START", font, 30);
+    startButtonText.setPosition(440, 405); // Set label position
 
     //--------------------------------------END GAME BUTTONS ----------------------------------------------\\ 
 
     // Create a boolean variable to track whether the game is over or not
-    bool isGameOver = false;
+    bool isGameOver = true;
 
     // Create an sf::Text object for the "GAME OVER" message
     sf::Text gameOverText("GAME OVER", font, 80);
@@ -169,26 +185,41 @@ int main()
 
         }
 
-        // detects mousebutton press events
-        if (isGameOver && event.type == sf::Event::MouseButtonPressed) {
+        // detects mousebutton press events for game
+        if (event.type == sf::Event::MouseButtonPressed) {
             if (event.mouseButton.button == sf::Mouse::Left) {
                 sf::Vector2f mousePos = window.mapPixelToCoords(sf::Mouse::getPosition(window));
-                // Check for mouse clicks on the restart button
-                if (restartButton.getGlobalBounds().contains(mousePos)) {
-                    // Restart the game
-                    isGameOver = false;
-                    resetGame(countdownTime, player, clock, trashcan, bed, chain, toilet, sink, chair, vent, trashCheck, chairCheck);
-                }
-                // Check for mouse clicks on the quit button
-                else if (quitButton.getGlobalBounds().contains(mousePos)) {
-                    // Quit the game
-                    window.close();
-                }
-                // Check for mouse clicks on the menu button
-                else if (menuButton.getGlobalBounds().contains(mousePos)) { //comented out for testing
 
-                    // Go to the menu
-                    // Implement menu behavior here
+                if (isMenu)
+                {
+                    // Check for mouse clicks on the restart button
+                    if (startButton.getGlobalBounds().contains(mousePos)) {
+                        // start the game
+                        isGameOver = false;
+                        isMenu = false;
+                        resetGame(countdownTime, player, clock, trashcan, bed, chain, toilet, sink, chair, vent, trashCheck, chairCheck);
+                    }
+                }
+
+                else if (!isMenu && isGameOver)
+                {
+                    // Check for mouse clicks on the restart button
+                    if (restartButton.getGlobalBounds().contains(mousePos)) {
+                        // Restart the game
+                        isGameOver = false;
+                        resetGame(countdownTime, player, clock, trashcan, bed, chain, toilet, sink, chair, vent, trashCheck, chairCheck);
+                    }
+                    // Check for mouse clicks on the quit button
+                    else if (quitButton.getGlobalBounds().contains(mousePos)) {
+                        // Quit the game
+                        window.close();
+                    }
+                    // Check for mouse clicks on the menu button
+                    else if (menuButton.getGlobalBounds().contains(mousePos)) { //comented out for testing
+
+                        isGameOver = true;
+                        isMenu = true;
+                    }
                 }
             }
         }
@@ -365,8 +396,16 @@ int main()
             player.draw(window);
         }
 
+        // if the menu is true, draw the menu elements
+        if (isMenu)
+        {
+            window.draw(titleText);
+            window.draw(startButton);
+            window.draw(startButtonText);
+        }
+
         // If the game is over, draw the "GAME OVER" message, restart button, quit button, and menu button
-        if (isGameOver) {
+        else if (isGameOver) {
             window.draw(gameOverText);
             window.draw(restartButton);
             window.draw(restartButtonText);
