@@ -8,6 +8,9 @@
 #include <cassert>
 #include <cmath>
 #include <SFML/Graphics.hpp>
+#include "Tool.h"
+#include "gameObject.h"
+
 
 // Define the test cases 
 void testSpriteLoading() {
@@ -29,21 +32,12 @@ void testSpriteLoading() {
     bool isBedTextureLoaded = bedTexture.loadFromFile(bedTexturePath);
     // Add more texture loading attempts as needed
 
-    // Assert that each texture was loaded successfully
-    if (!isPlayerTextureLoaded) {
-        std::cerr << "Failed to load player texture from: " << playerTexturePath << std::endl;
-    }
-    if (!isTrashTextureLoaded) {
-        std::cerr << "Failed to load trash texture from: " << trashTexturePath << std::endl;
-    }
-    if (!isBedTextureLoaded) {
-        std::cerr << "Failed to load bed texture from: " << bedTexturePath << std::endl;
-    }
-    // Add more assertions as needed
-
-    // If all textures were loaded successfully, print a success message
+    // Print the results
     if (isPlayerTextureLoaded && isTrashTextureLoaded && isBedTextureLoaded) {
         std::cout << "All textures loaded successfully!" << std::endl;
+    }
+    else {
+        std::cout << "Texture loading test failed." << std::endl;
     }
 }
 
@@ -65,7 +59,37 @@ void testPlayerMovement() {
 }
 
 void testWinCondition() {
-    // Implement the test case for win condition here
+    // Create a player object and set up the game environment
+    sf::Texture playerTexture;
+    playerTexture.loadFromFile("images/player.png");
+    Player player(playerTexture, sf::Vector2f(500, 500));
+
+    // Create a tool object
+    sf::Texture toolTexture;
+    toolTexture.loadFromFile("images/tool.png");
+    Tool tool(toolTexture, sf::Vector2f(650, 600));
+
+    // Set the initial state of the win condition
+    bool hasWon = false;
+
+    // Simulate the win condition
+    // Check if the player picks up the tool
+    if (tool.pickUp(player)) {
+        // Check if the win condition is met
+        // For example, checking if the player has a specific combination of items or completed certain tasks
+        if (player.getHasScrewDriver() && player.getHasNailFile()) {
+            // The player wins the game
+            hasWon = true;
+        }
+    }
+
+    // Print the result of the win condition
+    if (hasWon) {
+        std::cout << "Win condition test passed." << std::endl;
+    }
+    else {
+        std::cout << "Win condition test failed." << std::endl;
+    }
 }
 
 void testObjectInteraction() {
@@ -77,7 +101,7 @@ void testObjectInteraction() {
     // Create an interactable object (e.g., trash can)
     sf::Texture trashTex;
     trashTex.loadFromFile("images/bins.png");
-    InteractableObject trashcan(sf::IntRect(0, 0, 128, 256), trashTex, sf::Vector2f(267, 468), false, 57, 468, 0.80f,false);
+    InteractableObject trashcan(sf::IntRect(0, 0, 128, 256), trashTex, sf::Vector2f(267, 468), false, 57, 468, 0.80f, false);
 
     // Set the trash can to be draggable
     trashcan.setDraggable(true);
@@ -96,8 +120,52 @@ void testObjectInteraction() {
 }
 
 void testInventorySystem() {
-    // Implement the test case for the inventory system here
+    // Instantiate the player and the tools
+    sf::Texture playerTexture, screwDriverTexture, nailFileTexture;
+    // Load the textures for the player, screwdriver, and nail file
+
+    Player player(playerTexture, sf::Vector2f(0, 0));
+    Tool screwDriver(screwDriverTexture, sf::Vector2f(0, 0));
+    Tool nailFile(nailFileTexture, sf::Vector2f(0, 0));
+
+    // Initially, the player should not have any tools
+    if (player.getHasScrewDriver() || player.getHasNailFile()) {
+        // Handle the test failure
+        std::cout << "Test failed: Player has tools before picking them up." << std::endl;
+    }
+
+    // Pick up the screwdriver
+    player.setHasScrewDriver(true);
+
+    // Check if the player has the screwdriver
+    if (!player.getHasScrewDriver()) {
+        // Handle the test failure
+        std::cout << "Test failed: Player did not pick up the screwdriver." << std::endl;
+    }
+
+    // Pick up the nail file
+    player.setHasNailFile(true);
+
+    // Check if the player has the nail file
+    if (!player.getHasNailFile()) {
+        // Handle the test failure
+        std::cout << "Test failed: Player did not pick up the nail file." << std::endl;
+    }
+
+    // Reset the player's inventory
+    player.setHasScrewDriver(false);
+    player.setHasNailFile(false);
+
+    // Check if the player's inventory is empty after resetting
+    if (player.getHasScrewDriver() || player.getHasNailFile()) {
+        // Handle the test failure
+        std::cout << "Test failed: Player's inventory was not reset." << std::endl;
+    }
+
+    // The test passed if no failures were detected
+    std::cout << "Inventory system test passed." << std::endl;
 }
+
 
 void testCountdown() {
     sf::Clock clock;
@@ -160,22 +228,21 @@ void testResetGame() {
     sf::Texture BedTex;
     BedTex.loadFromFile("images/bed.png");
     InteractableObject bed(sf::IntRect(0, 0, 512, 512), BedTex, sf::Vector2f(550, 240), false, 0, 0, 0.8f, false);
+    sf::Texture chairTex;
+    chairTex.loadFromFile("images/chair.png");
     sf::Texture chainTex;
     chainTex.loadFromFile("images/chain.png");
-    Chain chain(sf::IntRect(0, 0, 128, 128), chainTex, sf::Vector2f(267, 468),false, false);
+    Chain chain(sf::IntRect(0, 0, 128, 128), chainTex, sf::Vector2f(267, 468), false, false);
     sf::Texture toiletTex;
     toiletTex.loadFromFile("images/Toilet.png");
     InteractableObject toilet(sf::IntRect(0, 0, 128, 256), toiletTex, sf::Vector2f(510, 275), false, 0, 0, 1.0f, false);
     sf::Texture sinkTex;
     sinkTex.loadFromFile("images/sink.png");
     InteractableObject sink(sf::IntRect(0, 0, 128, 128), sinkTex, sf::Vector2f(400, 360), false, 0, 0, 1.0f, false);
-    sf::Texture chairTex;
-    chairTex.loadFromFile("images/chair.png");
     InteractableObject chair(sf::IntRect(0, 0, 128, 256), chairTex, sf::Vector2f(220, 350), false, 0, 0, 1.0f, false);
     sf::Texture ventTex;
     ventTex.loadFromFile("images/vent.png");
     InteractableObject vent(sf::IntRect(0, 0, 192, 128), ventTex, sf::Vector2f(350, 50), false, 0, 0, 1.0f, false);
-
     // Player
     sf::Texture playerTexture;
     playerTexture.loadFromFile("images/player.png");

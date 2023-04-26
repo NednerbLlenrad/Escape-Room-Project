@@ -23,8 +23,8 @@ int main()
     void testCountdown();
     void testGameOver();
     void testSpriteLoading();
-    //void testWinCondition();
-    //void testInventorySystem();
+    void testWinCondition();
+    void testInventorySystem();
     //------------------------------------Test End----------------------------------------------\\
 
     // create a window
