@@ -29,11 +29,21 @@ bool Tool::pickUp(Player& player)
 
 	if (distance < 160)
 	{
-		if(sf::Keyboard::isKeyPressed(sf::Keyboard::X))
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::X))
 		{
 			mIsPickedUp = true;
 			return true;
 		}
+
+		else
+		{
+			return false;
+		}
+	}
+
+	else
+	{
+		return false;
 	}
 }
 
