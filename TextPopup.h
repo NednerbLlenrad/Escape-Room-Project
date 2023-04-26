@@ -8,7 +8,8 @@ class TextPopup
 private:
 	sf::Text mText; // text
 	sf::RectangleShape mTextBG; // text background, may want to change to a texture in the future
-
+	
+	int mTimeLeft;
 	bool isActive;
 public:
 	TextPopup();
@@ -20,6 +21,8 @@ public:
 	void setPosition(sf::Vector2f position);
 
 	void setActive(bool);
+
+	bool getActive();
 
 	void draw(sf::RenderWindow& window);
 };

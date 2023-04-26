@@ -8,6 +8,7 @@
 #include "InteractableClassObject.hpp"
 #include "Buttons.h"
 #include "Tool.h"
+#include "TextPopup.h"
 //Temp place for functions
 
 
@@ -138,7 +139,15 @@ int main()
     //clock+ time for animation
     sf::Clock clockA;
     float animationTime = 0;
-        
+ 
+//------------------------------------------------------------------------------------------------------------\\
+    //Textpopup
+    TextPopup playerText;
+    playerText.setFont(font);
+    playerText.setActive(false);
+    sf::Clock textClock; // not sure if this is the best way of doing this
+    float playerTextRem = 0; // time left for the text to be displayed
+//------------------------------------------------------------------------------------------------------------\\
     //background setup
     sf::RectangleShape background(sf::Vector2f(1000, 750));
     sf::Texture backgroundTexture; 
@@ -185,6 +194,7 @@ int main()
             if (event.mouseButton.button == sf::Mouse::Left) {
                 sf::Vector2f mousePos = window.mapPixelToCoords(sf::Mouse::getPosition(window));
                if (menuButton.getGlobalBounds().contains(mousePos)) { //comented out for testing
+
                         // Go to the menu
                         // Implement menu behavior here
                 }
@@ -204,6 +214,14 @@ int main()
             if (countdownTime <= 0) {
                 isGameOver = true;
             }
+        }
+
+        if (!isGameOver && playerText.getActive()) // game not over and playerText is active
+        {
+            sf::Time elapsed = textClock.restart();
+            playerTextRem -= elapsed.asSeconds();
+            if (playerTextRem <= 0)
+                playerText.setActive(false);
         }
 
         // Restart the clocks after updating and rendering
@@ -235,7 +253,6 @@ int main()
             if (bed.interaction(window, player, sf::IntRect(512, 0, 512, 512)) == true)
             {
                 nailFileFound = true;
-   
             }
             //Open toilet
             if (toilet.interaction(window, player, sf::IntRect(128, 0, 128, 256)) == true)
@@ -282,22 +299,39 @@ int main()
             chain.draw(window);
             trashcan.draw(window);
 
+            //Draw playerText
+            playerText.draw(window);
+            playerText.setPosition(player.getPosition() + sf::Vector2f(0, -30));
+            
+
            
             //draw tools and allow for pickup-- only if found
             if (screwDriverFound == true)
             {
                 screwDriver.drop(window);
-                if (screwDriver.pickUp(player))
+                if (screwDriver.pickUp(player) && !player.getHasScrewDriver())
                 {
                     player.setHasScrewDriver(true);
+
+                    // displays a popup for a duration
+                    playerText.setString("+ Screwdriver");
+                    playerText.setActive(true);
+                    playerTextRem = 3;
+                    textClock.restart();
                 }
             }
             if (nailFileFound == true)
             {
                 nailFile.drop(window);
-                if (nailFile.pickUp(player))
+                if (nailFile.pickUp(player) && !player.getHasNailFile())
                 {
                     player.setHasNailFile(true);
+
+                    // displays popup for a duration
+                    playerText.setString("+ Nail File");
+                    playerText.setActive(true);
+                    playerTextRem = 3;
+                    textClock.restart();
                 }
             }
           

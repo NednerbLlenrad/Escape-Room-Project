@@ -34,6 +34,11 @@ void TextPopup::setActive(bool ToF)
 	isActive = ToF;
 }
 
+bool TextPopup::getActive()
+{
+	return isActive;
+}
+
 void TextPopup::draw(sf::RenderWindow& window)
 {
 	if (isActive) // will only draw to window if isActive is True
