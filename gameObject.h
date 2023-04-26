@@ -61,15 +61,15 @@ public:
     }
 
     //Check if player is close enough
-    float distanceFromPlayer(Player player);
+    float distanceFromPlayer(Player& player);
     //Distance from object
     //float distanceFromObject(InteractableObject& objectTarget);
     //Virtual function for interaction
-    bool interaction(sf::RenderWindow& window, Player player, sf::IntRect shift);
+    bool interaction(sf::RenderWindow& window, Player& player, sf::IntRect shift);
     virtual void interactionType(sf::IntRect shift){}
    
     //Handle dragging
-    void drag(sf::RenderWindow& window, Player player);
+    void drag(sf::RenderWindow& window, Player& player);
 
 protected:
 	sf::Sprite mObjectBody;

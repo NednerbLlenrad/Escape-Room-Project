@@ -1,7 +1,7 @@
 #pragma once
 #include <sfml\Graphics.hpp>
 #include "HitboxAddition.h"
-#include "InteractableClassObject.hpp"
+class InteractableObject;
 class Player
 {
 public:

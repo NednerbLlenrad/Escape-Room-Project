@@ -4,7 +4,7 @@
 
 
 //Calculates the distance from an object to the player in order to disable/enable interaction or dragging
-float gameObject::distanceFromPlayer(Player player)
+float gameObject::distanceFromPlayer(Player& player)
 {
 	sf::Vector2f objectPos = mObjectBody.getPosition();//Object POS
 	sf::Vector2f playerPos = player.getPosition();//get PlayerPOS
@@ -29,7 +29,7 @@ float gameObject::distanceFromPlayer(Player player)
 //}
 
 //Base interaction that uses a a interactionType virtual function to allow for different types of objects to be interacted with differently
-bool gameObject::interaction(sf::RenderWindow& window, Player player, sf::IntRect shift)
+bool gameObject::interaction(sf::RenderWindow& window, Player& player, sf::IntRect shift)
 {
 	// Get the bounds of the object's sprite
 	sf::FloatRect bounds = mObjectBody.getGlobalBounds();
@@ -63,7 +63,7 @@ bool gameObject::interaction(sf::RenderWindow& window, Player player, sf::IntRec
 }
 
 //Allows the object to be clicked and dragged around the window
-void gameObject::drag(sf::RenderWindow& window, Player player)
+void gameObject::drag(sf::RenderWindow& window, Player& player)
 {
     if (!isDraggable)
     {

@@ -1,5 +1,5 @@
 #include "player.h"
-
+#include "InteractableClassObject.hpp"
 Player::Player(sf::Texture& texture, sf::Vector2f position)
 	: mHitBoxAdd(mBody, 0, 0, 128, 128)
 {
