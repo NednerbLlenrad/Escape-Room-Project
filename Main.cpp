@@ -7,7 +7,7 @@
 #include "Desk.hpp"
 #include "InteractableClassObject.hpp"
 #include "Buttons.h"
-
+#include "Tool.h"
 //Temp place for functions
 
 
@@ -31,9 +31,9 @@ int main()
 
     //player instantiation
     // player texture
-    sf::Texture texture;
-    texture.loadFromFile("images/player.png");
-    Player player(texture, sf::Vector2f(500, 500));
+    sf::Texture Playertexture;
+    Playertexture.loadFromFile("images/player.png");
+    Player player(Playertexture, sf::Vector2f(500, 500));
 
 
 
@@ -71,12 +71,21 @@ int main()
     chain.setDraggable(false); // Set isDraggable to false
     //Vent
     sf::Texture ventTex;
-    ventTex.loadFromFile("images/vent.png");
-    InteractableObject vent(sf::IntRect(0, 0, 192, 128), ventTex, sf::Vector2f(267, 468),false,350,50,1.0);
+     ventTex.loadFromFile("images/vent.png");
+   InteractableObject vent(sf::IntRect(0, 0, 192, 128), ventTex, sf::Vector2f(267, 468),false,350,50,1.0);
     //--------------------------------------------------------------------------------------------------\\
     
- 
- 
+    //-----------------------------------TOOL INSTANTIATION-----------------------------------\\
+
+    sf::Texture screwDriverTex, nailFileTex;
+    screwDriverTex.loadFromFile("images/screwDriver.png");
+    nailFileTex.loadFromFile("images/nailFile.png");
+    Tool screwDriver(screwDriverTex, sf::Vector2f(500, 500));
+    Tool nailFile(nailFileTex, sf::Vector2f(650, 600));
+    bool screwDriverFound = false;
+    bool nailFileFound = false;
+    //--------------------------------------------------------------------------------------------------\\
+
     //Countdown
     sf::Font font;
     font.loadFromFile("Font/joystix monospace.ttf");
@@ -138,7 +147,27 @@ int main()
                 }
             }
         }
-    
+        // Check for mouse clicks on the quit button
+        if (event.type == sf::Event::MouseButtonPressed) {
+            if (event.mouseButton.button == sf::Mouse::Left) {
+                sf::Vector2f mousePos = window.mapPixelToCoords(sf::Mouse::getPosition(window));
+               if (quitButton.getGlobalBounds().contains(mousePos)) { //comented out for testing
+                        // Quit the game
+                      window.close(); 
+                 }
+             }
+        }
+
+        // Check for mouse clicks on the menu button
+        if (event.type == sf::Event::MouseButtonPressed) {
+            if (event.mouseButton.button == sf::Mouse::Left) {
+                sf::Vector2f mousePos = window.mapPixelToCoords(sf::Mouse::getPosition(window));
+               if (menuButton.getGlobalBounds().contains(mousePos)) { //comented out for testing
+                        // Go to the menu
+                        // Implement menu behavior here
+                }
+            }
+        }
       
 
         // Update the Countdown
@@ -181,16 +210,26 @@ int main()
             }
             bool flippedCheck = trashcan.interaction(window, player, sf::IntRect(160, 0, 128, 256));
             //Unmake the bed
-            bed.interaction(window, player, sf::IntRect(512, 0, 512, 512));
+            if (bed.interaction(window, player, sf::IntRect(512, 0, 512, 512)) == true)
+            {
+                nailFileFound = true;
+   
+            }
             //Open toilet
-            toilet.interaction(window, player, sf::IntRect(128, 0, 128, 256));
+            if (toilet.interaction(window, player, sf::IntRect(128, 0, 128, 256)) == true)
+            {
+                screwDriverFound = true;
+            }
             //Turn on sink
             sink.interaction(window, player, sf::IntRect(128, 0, 128, 128));
             //Chain Breaking
-            if (chain.interaction(window, player, sf::IntRect()) == true)
+            if(player.getHasNailFile() == true)
             {
-                chair.setDraggable(true);//allows chair to be dragged
-                chairCheck = true;
+                if (chain.interaction(window, player, sf::IntRect()) == true)
+                {
+                    chair.setDraggable(true);//allows chair to be dragged
+                    chairCheck = true;
+                }
             }
             //Makes chair draggable
             if (chair.getDraggable())
@@ -204,8 +243,12 @@ int main()
             }
             //-------------------------------------------------------------\\
 
+            
+
             player.update(animationTime);
             player.handleWallCollisions();
+
+           
 
             //Draw Objects
             vent.draw(window);
@@ -216,6 +259,27 @@ int main()
             chair.draw(window);
             chain.draw(window);
             trashcan.draw(window);
+
+           
+            //draw tools and allow for pickup-- only if found
+            if (screwDriverFound == true)
+            {
+                screwDriver.drop(window);
+                if (screwDriver.pickUp(player))
+                {
+                    player.setHasScrewDriver(true);
+                }
+            }
+            if (nailFileFound == true)
+            {
+                nailFile.drop(window);
+                if (nailFile.pickUp(player))
+                {
+                    player.setHasNailFile(true);
+                }
+            }
+          
+
             //draws the countdown
             window.draw(countdownTxt);
             
@@ -223,11 +287,17 @@ int main()
             player.draw(window);
         }
 
-        // If the game is over, draw the "GAME OVER" message and restart button // Add Menu Button when there is a menu
+        // If the game is over, draw the "GAME OVER" message, restart button, quit button, and menu button
         if (isGameOver) {
             window.draw(gameOverText);
             window.draw(restartButton);
             window.draw(restartButtonText);
+
+            commmented out for testing
+            window.draw(quitButton);
+            window.draw(quitButtonText);
+            window.draw(menuButton);
+            window.draw(menuButtonText);
         }
 
         // Display the window (only once per frame)

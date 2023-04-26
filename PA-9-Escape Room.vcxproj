@@ -140,6 +140,7 @@
     <ClCompile Include="player.cpp" />
     <ClCompile Include="tests.cpp" />
     <ClCompile Include="TextPopup.cpp" />
+    <ClCompile Include="Tool.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Assets.png" />
@@ -154,6 +155,7 @@
     <ClInclude Include="player.h" />
     <ClInclude Include="tests.h" />
     <ClInclude Include="TextPopup.h" />
+    <ClInclude Include="Tool.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -34,24 +34,24 @@ void Player::update(float deltaTime)
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
 	{
-		movement.y += -0.55;
+		movement.y += -0.7;
 		mImage.top = 2 * mSize.y; //swap sprite row
 	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
 	{
-		movement.y += 0.55;
+		movement.y += 0.7;
 		mImage.top = 0 * mSize.y;//swap sprite row
 
 	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
 	{
-		movement.x += 0.55;
+		movement.x += 0.7;
 		mImage.top = 1 * mSize.y;//swap sprite row
 
 	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
 	{
-		movement.x += -0.55;
+		movement.x += -0.7;
 		mImage.top = 3 * mSize.y;//swap sprite row
 
 	}

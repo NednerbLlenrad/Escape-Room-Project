@@ -6,8 +6,8 @@ HitboxAddition::HitboxAddition(sf::Sprite& sprite, float y_offset, float x_offse
 	mHitBox.setPosition(mSprite.getPosition().x + mX_offset, mSprite.getPosition().y + mY_offset);
 	mHitBox.setSize(sf::Vector2f(width, height));
 	mHitBox.setFillColor(sf::Color::Transparent);
-	this->mHitBox.setOutlineThickness(0.5);
-	this->mHitBox.setOutlineColor(sf::Color::Green);
+	//this->mHitBox.setOutlineThickness(0.5);
+	//this->mHitBox.setOutlineColor(sf::Color::Green);
 
 }
 

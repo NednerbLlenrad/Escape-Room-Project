@@ -36,6 +36,9 @@
     <ClCompile Include="Buttons.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Tool.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Assets.png">
@@ -68,6 +71,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Buttons.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Tool.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
