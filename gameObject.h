@@ -62,9 +62,10 @@ public:
 
     //Check if player is close enough
     float distanceFromPlayer(Player& player);
-    //Distance from object
-    //float distanceFromObject(InteractableObject& objectTarget);
-    //Virtual function for interaction
+    
+    float distanceX(Player& player);
+    float distanceY(Player& player);
+
     bool interaction(sf::RenderWindow& window, Player& player, sf::IntRect shift);
     virtual void interactionType(sf::IntRect shift){}
    

@@ -289,9 +289,12 @@ int main()
                 chair.drag(window, player);
             }
             //Vent
-            if (trashCheck == true && chairCheck == true && screwDriverFound == true)//Checks that the garbage has been flipped and chair is draggable,
-            {                                                                        //Would also check for screwdriver once implemented.
-                vent.interaction(window, player, sf::IntRect(192, 0, 192, 128));
+            if (trashCheck == true && chairCheck == true && screwDriverFound == true && player.getIsOnTrash() == true)//Checks that the garbage has been flipped and chair is draggable,
+            {                                                                                                         //Would also check for screwdriver once implemented.
+                if(vent.distanceY(player) > 250)
+                {
+                    vent.interaction(window, player, sf::IntRect(192, 0, 192, 128));
+                }
             }
             //-------------------------------------------------------------\\
 

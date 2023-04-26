@@ -15,25 +15,27 @@ float gameObject::distanceFromPlayer(Player& player)
 	return std::sqrt(dx * dx + dy * dy);//use pythagoream theorem to calculate distance
 }
 
+float gameObject::distanceX(Player& player)
+{
+    sf::Vector2f objectPos = mObjectBody.getPosition();//Object POS
+    sf::Vector2f playerPos = player.getPosition();//get PlayerPOS
+    float dx = objectPos.x - playerPos.x;//find the x distance between
+    return dx;
+}
 
-//Commented out working code for distance between objects
-//float gameObject::distanceFromObject(InteractableObject& objectTarget)
-//{
-//    sf::Vector2f objectPos = mObjectBody.getPosition();
-//    sf::Vector2f playerPos = objectTarget.getPosition();
-//
-//    float dx = objectPos.x - playerPos.x;
-//    float dy = objectPos.y - playerPos.y;
-//
-//    return std::sqrt(dx * dx + dy * dy);
-//}
-
+float gameObject::distanceY(Player& player)
+{
+    sf::Vector2f objectPos = mObjectBody.getPosition();//Object POS
+    sf::Vector2f playerPos = player.getPosition();//get PlayerPOS
+    float dy = objectPos.y - playerPos.y;//find the y distance between
+    return dy;
+}
 //Base interaction that uses a a interactionType virtual function to allow for different types of objects to be interacted with differently
 bool gameObject::interaction(sf::RenderWindow& window, Player& player, sf::IntRect shift)
 {
 	// Get the bounds of the object's sprite
 	sf::FloatRect bounds = mObjectBody.getGlobalBounds();
-    if (distanceFromPlayer(player) < 550)//If player is close enough and the mouse is hovering on the object area, then prompt appears
+    if (distanceFromPlayer(player) < 525)//If player is close enough and the mouse is hovering on the object area, then prompt appears
     {                                    //This tells the player to press E to interact, calling the virtual interactionType function based on the object type.
         sf::Vector2i mousePositionI = sf::Mouse::getPosition(window);
         sf::Vector2f mousePositionF = window.mapPixelToCoords(mousePositionI);
@@ -41,7 +43,7 @@ bool gameObject::interaction(sf::RenderWindow& window, Player& player, sf::IntRe
         {
             sf::Font font;
             font.loadFromFile("Font/joystix monospace.ttf");
-            sf::Text interactPrompt("Press E to Interact", font, 30);
+            sf::Text interactPrompt("E to Interact", font, 30);
             interactPrompt.setPosition(300, 705); // Set label position
             interactPrompt.setFillColor(sf::Color::White);
             window.draw(interactPrompt);
@@ -71,11 +73,11 @@ void gameObject::drag(sf::RenderWindow& window, Player& player)
     }
     else
     {
-        // Get the bounds of the object's sprite
-        sf::FloatRect bounds = mObjectBody.getGlobalBounds();
-        if (distanceFromPlayer(player) < 600)
+        
+        if (distanceFromPlayer(player) < 500)
         {                                    //Similarly to the interaction, if the player is close enough, they can drag the object while clicking on it.
-
+            // Get the bounds of the object's sprite
+            sf::FloatRect bounds = mObjectBody.getGlobalBounds();
             if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
             {
                 sf::Vector2i mousePositionI = sf::Mouse::getPosition(window);
