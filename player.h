@@ -1,6 +1,7 @@
 #pragma once
 #include <sfml\Graphics.hpp>
 #include "HitboxAddition.h"
+#include "InteractableClassObject.hpp"
 class Player
 {
 public:
@@ -12,7 +13,7 @@ public:
 
 	void handleWallCollisions();
 
-
+	//check inventory
 	bool getHasScrewDriver() const; //returns true if true
 	bool getHasNailFile() const;
 
@@ -28,6 +29,17 @@ public:
 	//sets position
 	void setPosition(const sf::Vector2f newPos);
 
+	//check if on trashcan
+	bool getIsOnTrash();
+
+	//set 
+	void setIsOnTrash(const bool ToF);
+
+	//checks if player should fall off trashcan
+	void CheckFall(InteractableObject& trash);
+
+	//climb onto trashcan
+	void ClimbTrash(InteractableObject& trash);
 
 private:
 	sf::IntRect mImage;//determines which sprite from the sheet is visible
@@ -39,5 +51,7 @@ private:
 
 	bool mHasScrewDriver;
 	bool mHasNailFile;
+
+	bool mIsOnTrash;
 };
 
