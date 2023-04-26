@@ -184,7 +184,7 @@ int main()
         if (event.type == sf::Event::MouseButtonPressed) {
             if (event.mouseButton.button == sf::Mouse::Left) {
                 sf::Vector2f mousePos = window.mapPixelToCoords(sf::Mouse::getPosition(window));
-               if (quitButton.getGlobalBounds().contains(mousePos)) { //comented out for testing
+               if (quitButton.getGlobalBounds().contains(mousePos)) { 
                         // Quit the game
                       window.close(); 
                  }
@@ -374,6 +374,9 @@ int main()
             window.draw(quitButtonText);
             window.draw(menuButton);
             window.draw(menuButtonText);
+
+            screwDriverFound = false;
+            nailFileFound = false;
         }
 
         // Display the window (only once per frame)

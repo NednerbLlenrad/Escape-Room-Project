@@ -6,6 +6,8 @@ Player::Player(sf::Texture& texture, sf::Vector2f position)
 	mHasScrewDriver = false;
 	mHasNailFile = false;
 
+	mIsOnTrash = false;
+
 	mSize = texture.getSize();
 	mSize.x = mSize.x / 4;
 	mSize.y = mSize.y / 4;
@@ -102,6 +104,8 @@ void Player::handleWallCollisions()
 	{
 		mBody.setPosition(sf::Vector2f(mBody.getPosition().x, 384));
 	}
+
+	mHitBoxAdd.update();
 }
 
 bool Player::getHasScrewDriver() const
@@ -138,4 +142,47 @@ sf::Vector2f Player::getPosition() const
 void Player::setPosition(const sf::Vector2f newPos)
 {
 	mBody.setPosition(newPos);
+}
+
+bool Player::getIsOnTrash()
+{
+	return mIsOnTrash;
+}
+
+void Player::setIsOnTrash(const bool ToF)
+{
+	mIsOnTrash = ToF;
+}
+
+void Player::CheckFall(InteractableObject& trash)
+{
+	if (mIsOnTrash == true)
+	{
+		if (mBody.getPosition().x < trash.getPosition().x - 100 || mBody.getPosition().x >= trash.getPosition().x + 228
+			|| mBody.getPosition().y > trash.getPosition().y + 128 || mBody.getPosition().y <= trash.getPosition().y + 60)
+		{
+			mBody.setPosition(mBody.getPosition().x, 600);
+			mHitBoxAdd.update();
+		}
+	}
+}
+
+void Player::ClimbTrash(InteractableObject& trash)
+{
+	sf::Vector2f playerPos = mBody.getPosition();
+	sf::Vector2f trashPos = trash.getPosition();
+
+	float dx = trashPos.x - playerPos.x;
+	float dy = trashPos.y - playerPos.y;
+
+	float distance = std::sqrt(dx * dx + dy * dy);
+
+	if (distance < 300)
+	{
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Q))
+		{
+			mBody.setPosition(trash.getPosition().x, trash.getPosition().y + 100);
+			mHitBoxAdd.update();
+		}
+	}
 }
