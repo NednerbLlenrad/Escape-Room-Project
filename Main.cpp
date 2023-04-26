@@ -171,6 +171,11 @@ int main()
     sf::Texture backgroundTexture; 
     backgroundTexture.loadFromFile("images/background.png");
     background.setTexture(&backgroundTexture);
+    //---------------------------------------YOU WIN----------------------------------------------------------------\\
+        
+    bool hasWon = false;
+    bool isRestart = false;
+    bool isQuit = false;
 
     
 
@@ -325,6 +330,8 @@ int main()
                 if(vent.distanceY(player) > 250)
                 {
                     vent.interaction(window, player, sf::IntRect(192, 0, 192, 128));
+                    hasWon = true;
+                    isGameOver = true;
                 }
             }
             //-------------------------------------------------------------\\
@@ -423,6 +430,88 @@ int main()
             screwDriver.setIsPickedUp(false);
             nailFile.setIsPickedUp(false);
         }
+
+        else if (isGameOver && hasWon) {
+            sf::Text winText("You Win!", font, 80);
+            winText.setPosition(200, 300);
+            winText.setFillColor(sf::Color::Green);
+
+            sf::RectangleShape restartButton(sf::Vector2f(200, 50));
+            restartButton.setFillColor(sf::Color(128, 128, 128));
+            restartButton.setPosition(412, 400);
+
+            sf::Text restartButtonText("RESTART", font, 30);
+            restartButtonText.setPosition(440, 405);
+
+            sf::RectangleShape quitButton(sf::Vector2f(200, 50));
+            quitButton.setFillColor(sf::Color(128, 128, 128));
+            quitButton.setPosition(412, 460);
+
+            sf::Text quitButtonText("QUIT", font, 30);
+            quitButtonText.setPosition(470, 465);
+
+            sf::RectangleShape menuButton(sf::Vector2f(200, 50));
+            menuButton.setFillColor(sf::Color(128, 128, 128));
+            menuButton.setPosition(412, 520);
+
+            sf::Text menuButtonText("MENU", font, 30);
+            menuButtonText.setPosition(460, 525);
+
+            while (window.isOpen()) {
+                // ...
+
+                sf::Vector2f mousePos = window.mapPixelToCoords(sf::Mouse::getPosition(window));
+
+                if (restartButton.getGlobalBounds().contains(mousePos)) {
+                    restartButton.setFillColor(sf::Color(192, 192, 192)); // Change button color when hovered
+                    if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
+                        // Perform restart action
+                        isGameOver = false;
+                        hasWon = false;
+                        isRestart = true;
+                    }
+                }
+                else {
+                    restartButton.setFillColor(sf::Color(128, 128, 128)); // Reset button color
+                }
+
+                if (quitButton.getGlobalBounds().contains(mousePos)) {
+                    quitButton.setFillColor(sf::Color(192, 192, 192)); // Change button color when hovered
+                    if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
+                        // Perform quit action
+                        isQuit = true;
+                    }
+                }
+                else {
+                    quitButton.setFillColor(sf::Color(128, 128, 128)); // Reset button color
+                }
+
+                if (menuButton.getGlobalBounds().contains(mousePos)) {
+                    menuButton.setFillColor(sf::Color(192, 192, 192)); // Change button color when hovered
+                    if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
+                        // Perform menu action
+                        isGameOver = true;
+                        hasWon = false;
+                        isMenu = true;
+                    }
+                }
+                else {
+                    menuButton.setFillColor(sf::Color(128, 128, 128)); // Reset button color
+                }
+
+                window.clear();
+                window.draw(background);
+                window.draw(winText);
+                window.draw(restartButton);
+                window.draw(restartButtonText);
+                window.draw(quitButton);
+                window.draw(quitButtonText);
+                window.draw(menuButton);
+                window.draw(menuButtonText);
+                window.display();
+            }
+        }
+
 
         // Display the window (only once per frame)
         window.display();
