@@ -88,7 +88,7 @@ int main()
     bool nailFileFound = false;
     //--------------------------------------------------------------------------------------------------\\
     //Countdown Loads a font from a file. This font was a free font taken from Dafont.com
-//     Countdown uses a clock from SFML and a float countdown time of 61 seconds.
+    //Countdown uses a clock from SFML and a float countdown time of 61 seconds.
     //Countdown
     sf::Font font;
     font.loadFromFile("Font/joystix monospace.ttf");
@@ -169,40 +169,30 @@ int main()
 
         }
 
-        // Check for mouse clicks on the restart button
+        // detects mousebutton press events
         if (isGameOver && event.type == sf::Event::MouseButtonPressed) {
             if (event.mouseButton.button == sf::Mouse::Left) {
                 sf::Vector2f mousePos = window.mapPixelToCoords(sf::Mouse::getPosition(window));
+                // Check for mouse clicks on the restart button
                 if (restartButton.getGlobalBounds().contains(mousePos)) {
                     // Restart the game
                     isGameOver = false;
                     resetGame(countdownTime, player, clock, trashcan, bed, chain, toilet, sink, chair, vent, trashCheck, chairCheck);
                 }
-            }
-        }
-        // Check for mouse clicks on the quit button
-        if (event.type == sf::Event::MouseButtonPressed) {
-            if (event.mouseButton.button == sf::Mouse::Left) {
-                sf::Vector2f mousePos = window.mapPixelToCoords(sf::Mouse::getPosition(window));
-               if (quitButton.getGlobalBounds().contains(mousePos)) { 
-                        // Quit the game
-                      window.close(); 
-                 }
-             }
-        }
+                // Check for mouse clicks on the quit button
+                else if (quitButton.getGlobalBounds().contains(mousePos)) {
+                    // Quit the game
+                    window.close();
+                }
+                // Check for mouse clicks on the menu button
+                else if (menuButton.getGlobalBounds().contains(mousePos)) { //comented out for testing
 
-        // Check for mouse clicks on the menu button
-        if (event.type == sf::Event::MouseButtonPressed) {
-            if (event.mouseButton.button == sf::Mouse::Left) {
-                sf::Vector2f mousePos = window.mapPixelToCoords(sf::Mouse::getPosition(window));
-               if (menuButton.getGlobalBounds().contains(mousePos)) { //comented out for testing
-
-                        // Go to the menu
-                        // Implement menu behavior here
+                    // Go to the menu
+                    // Implement menu behavior here
                 }
             }
         }
-      
+
 
         // Update the Countdown
         // Update the Countdown only if the game is not over
