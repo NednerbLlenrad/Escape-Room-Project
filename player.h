@@ -36,7 +36,7 @@ public:
 	void setIsOnTrash(const bool ToF);
 
 	//checks if player should fall off trashcan
-	void CheckFall(InteractableObject& trash);
+	void CheckFall();
 
 	//climb onto trashcan
 	void ClimbTrash(InteractableObject& trash);
@@ -53,5 +53,6 @@ private:
 	bool mHasNailFile;
 
 	bool mIsOnTrash;
+	sf::Vector2f trashLocation;
 };
 

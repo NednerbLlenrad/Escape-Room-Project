@@ -1,3 +1,4 @@
+#include <iostream>
 #include "player.h"
 #include "InteractableClassObject.hpp"
 Player::Player(sf::Texture& texture, sf::Vector2f position)
@@ -157,14 +158,17 @@ void Player::setIsOnTrash(const bool ToF)
 	mIsOnTrash = ToF;
 }
 
-void Player::CheckFall(InteractableObject& trash)
+void Player::CheckFall()
 {
 	if (mIsOnTrash == true)
 	{
-		if (mBody.getPosition().x < trash.getPosition().x - 320 || mBody.getPosition().x >= trash.getPosition().x 
-			|| mBody.getPosition().y > trash.getPosition().y -300 || mBody.getPosition().y <= trash.getPosition().y + 370)
+		if (mBody.getPosition().x < trashLocation.x - 60 || mBody.getPosition().x >= trashLocation.x + 60
+			|| mBody.getPosition().y < trashLocation.y - 20 || mBody.getPosition().y >= trashLocation.y + 20)
 		{
-			mBody.setPosition(mBody.getPosition().x, 600);
+			
+			mBody.setPosition(mBody.getPosition().x, 500);
+	
+			
 			mHitBoxAdd.update();
 			mIsOnTrash = false;
 		}
@@ -176,16 +180,21 @@ void Player::ClimbTrash(InteractableObject& trash)
 	sf::Vector2f playerPos = mBody.getPosition();
 	sf::Vector2f trashPos = trash.getPosition();
 
-	float dx = trashPos.x - playerPos.x;
-	float dy = trashPos.y - playerPos.y;
+	float dx = trashPos.x -220 - playerPos.x;
+	float dy = trashPos.y - 430 - playerPos.y;
 
 	float distance = std::sqrt(dx * dx + dy * dy);
 
+	if(distance < 300)
+	{
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Q))
 		{
 			mBody.setPosition(trash.getPosition().x - 220, trash.getPosition().y - 430);
 			mHitBoxAdd.update();
 			mIsOnTrash = true;
+			trashLocation.x = mBody.getPosition().x;
+			trashLocation.y = mBody.getPosition().y;
 		}
+	}
 	
 }

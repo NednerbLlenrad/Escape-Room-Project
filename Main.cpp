@@ -242,7 +242,10 @@ int main()
             }
             if (trashcan.getDraggable())
             {
-                trashcan.drag(window, player);
+                if(player.getIsOnTrash() == false) //dont allow trash to be dragged if player is on it
+                {
+                    trashcan.drag(window, player);
+                }
             }
             //Unmake the bed
             if (bed.getInteracted() == false)
@@ -297,9 +300,12 @@ int main()
             player.update(animationTime);
             player.handleWallCollisions(); //prevent wall collisions
            
-            player.ClimbTrash(trashcan); //allow player to clim trash
+            if(trashCheck == true)
+            {
+                player.ClimbTrash(trashcan); //allow player to clim trash
+            }
            
-           //player.CheckFall(trashcan); //checks if player should fall off trash
+            player.CheckFall(); //checks if player should fall off trash
 
 
             //Draw Objects
