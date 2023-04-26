@@ -33,7 +33,7 @@ bool gameObject::interaction(sf::RenderWindow& window, Player player, sf::IntRec
 {
 	// Get the bounds of the object's sprite
 	sf::FloatRect bounds = mObjectBody.getGlobalBounds();
-    if (distanceFromPlayer(player) < 450)//If player is close enough and the mouse is hovering on the object area, then prompt appears
+    if (distanceFromPlayer(player) < 550)//If player is close enough and the mouse is hovering on the object area, then prompt appears
     {                                    //This tells the player to press E to interact, calling the virtual interactionType function based on the object type.
         sf::Vector2i mousePositionI = sf::Mouse::getPosition(window);
         sf::Vector2f mousePositionF = window.mapPixelToCoords(mousePositionI);
