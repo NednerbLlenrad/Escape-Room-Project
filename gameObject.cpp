@@ -15,19 +15,21 @@ float gameObject::distanceFromPlayer(Player& player)
 	return std::sqrt(dx * dx + dy * dy);//use pythagoream theorem to calculate distance
 }
 
+float gameObject::distanceX(Player& player)
+{
+    sf::Vector2f objectPos = mObjectBody.getPosition();//Object POS
+    sf::Vector2f playerPos = player.getPosition();//get PlayerPOS
+    float dx = objectPos.x - playerPos.x;//find the x distance between
+    return dx;
+}
 
-//Commented out working code for distance between objects
-//float gameObject::distanceFromObject(InteractableObject& objectTarget)
-//{
-//    sf::Vector2f objectPos = mObjectBody.getPosition();
-//    sf::Vector2f playerPos = objectTarget.getPosition();
-//
-//    float dx = objectPos.x - playerPos.x;
-//    float dy = objectPos.y - playerPos.y;
-//
-//    return std::sqrt(dx * dx + dy * dy);
-//}
-
+float gameObject::distanceY(Player& player)
+{
+    sf::Vector2f objectPos = mObjectBody.getPosition();//Object POS
+    sf::Vector2f playerPos = player.getPosition();//get PlayerPOS
+    float dy = objectPos.y - playerPos.y;//find the y distance between
+    return dy;
+}
 //Base interaction that uses a a interactionType virtual function to allow for different types of objects to be interacted with differently
 bool gameObject::interaction(sf::RenderWindow& window, Player& player, sf::IntRect shift)
 {
