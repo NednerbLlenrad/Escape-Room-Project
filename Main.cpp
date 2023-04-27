@@ -331,7 +331,6 @@ int main()
                 {
                     vent.interaction(window, player, sf::IntRect(192, 0, 192, 128));
                     hasWon = true;
-                    isGameOver = true;
                 }
             }
             //-------------------------------------------------------------\\
@@ -431,7 +430,7 @@ int main()
             nailFile.setIsPickedUp(false);
         }
 
-        else if (isGameOver && hasWon) {
+        else if (hasWon) {
             sf::Text winText("You Win!", font, 80);
             winText.setPosition(200, 300);
             winText.setFillColor(sf::Color::Green);
