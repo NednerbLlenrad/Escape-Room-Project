@@ -457,50 +457,44 @@ int main()
             sf::Text menuButtonText("MENU", font, 30);
             menuButtonText.setPosition(460, 525);
 
-            
+            bool isRestart = false;
+            bool isQuit = false;
+            bool isMenu = false;
 
             while (window.isOpen()) {
-                // ...
-
-                sf::Vector2f mousePos = window.mapPixelToCoords(sf::Mouse::getPosition(window));
-
-                if (restartButton.getGlobalBounds().contains(mousePos)) {
-                    restartButton.setFillColor(sf::Color(192, 192, 192)); // Change button color when hovered
-                    if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
-                        // Perform restart action
-                        isGameOver = false;
-                        hasWon = false;
-                        isRestart = true;
-                    }
-                }
-                else {
-                    restartButton.setFillColor(sf::Color(128, 128, 128)); // Reset button color
-                }
-
-                if (quitButton.getGlobalBounds().contains(mousePos)) {
-                    quitButton.setFillColor(sf::Color(192, 192, 192)); // Change button color when hovered
-                    if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
-                        // Perform quit action
-                        isQuit = true;
+                sf::Event event;
+                while (window.pollEvent(event)) {
+                    if (event.type == sf::Event::Closed) {
                         window.close();
-                        break;
                     }
-                }
-                else {
-                    quitButton.setFillColor(sf::Color(128, 128, 128)); // Reset button color
+                    else if (event.type == sf::Event::MouseButtonPressed && event.mouseButton.button == sf::Mouse::Left) {
+                        sf::Vector2f mousePos = window.mapPixelToCoords(sf::Mouse::getPosition(window));
+
+                        if (restartButton.getGlobalBounds().contains(mousePos)) {
+                            // Perform restart action
+                            isGameOver = false;
+                            hasWon = false;
+                            isRestart = true;
+                            break; // Exit the nested loop
+                        }
+                        else if (quitButton.getGlobalBounds().contains(mousePos)) {
+                            // Perform quit action
+                            isQuit = true;
+                            window.close();
+                            break; // Exit the nested loop
+                        }
+                        else if (menuButton.getGlobalBounds().contains(mousePos)) {
+                            // Perform menu action
+                            isGameOver = true;
+                            hasWon = false;
+                            isMenu = true;
+                            break; // Exit the nested loop
+                        }
+                    }
                 }
 
-                if (menuButton.getGlobalBounds().contains(mousePos)) {
-                    menuButton.setFillColor(sf::Color(192, 192, 192)); // Change button color when hovered
-                    if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
-                        // Perform menu action
-                        isGameOver = true;
-                        hasWon = false;
-                        isMenu = true;
-                    }
-                }
-                else {
-                    menuButton.setFillColor(sf::Color(128, 128, 128)); // Reset button color
+                if (isRestart || isQuit || isMenu) {
+                    break; // Exit the outer loop
                 }
 
                 window.clear();
@@ -515,10 +509,12 @@ int main()
                 window.display();
             }
         }
+
         if (isQuit) {
             window.close();
             break;
         }
+
 
         // Display the window (only once per frame)
         window.display();
