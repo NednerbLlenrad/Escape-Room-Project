@@ -418,7 +418,7 @@ int main()
             window.draw(restartButton);
             window.draw(restartButtonText);
 
-            //commmented out for testing// no it works now except menu
+            
             window.draw(quitButton);
             window.draw(quitButtonText);
             window.draw(menuButton);
@@ -481,6 +481,8 @@ int main()
                     if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
                         // Perform quit action
                         isQuit = true;
+                        window.close();
+                        break;
                     }
                 }
                 else {
@@ -514,10 +516,7 @@ int main()
         }
 
         // If the quit button is clicked, close the window and end the game
-        if (isQuit) {
-            window.close();
-            break;
-        }
+
         // Display the window (only once per frame)
         window.display();
 
