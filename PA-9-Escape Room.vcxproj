@@ -143,9 +143,6 @@
     <ClCompile Include="Tool.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="Assets.png" />
-  </ItemGroup>
-  <ItemGroup>
     <ClInclude Include="Buttons.h" />
     <ClInclude Include="Chain.hpp" />
     <ClInclude Include="Desk.hpp" />
@@ -156,6 +153,9 @@
     <ClInclude Include="tests.h" />
     <ClInclude Include="TextPopup.h" />
     <ClInclude Include="Tool.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="ReadMe.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
