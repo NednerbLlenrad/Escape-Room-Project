@@ -176,7 +176,7 @@ int main()
     bool hasWon = false;
     bool isRestart = false;
     bool isQuit = false;
-
+    
     
 
 
@@ -329,8 +329,10 @@ int main()
             {                                                                                                         //Would also check for screwdriver once implemented.
                 if(vent.distanceY(player) > 250)
                 {
-                    vent.interaction(window, player, sf::IntRect(192, 0, 192, 128));
-                    
+                    if(vent.interaction(window, player, sf::IntRect(192, 0, 192, 128))==true)
+                    {
+                        hasWon = true;
+                    }
                 }
             }
             //-------------------------------------------------------------\\
@@ -347,11 +349,7 @@ int main()
            
             player.CheckFall(); //checks if player should fall off trash
 
-             // Check win condition
-            if (vent.getInteracted() && player.getIsOnTrash()) {
-                hasWon = true;
-                //isGameOver = true;
-            }
+
             //Draw Objects
             vent.draw(window);
             bed.draw(window);
@@ -515,7 +513,11 @@ int main()
             }
         }
 
-
+        // If the quit button is clicked, close the window and end the game
+        if (isQuit) {
+            window.close();
+            break;
+        }
         // Display the window (only once per frame)
         window.display();
 
