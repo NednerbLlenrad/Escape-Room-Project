@@ -330,7 +330,7 @@ int main()
                 if(vent.distanceY(player) > 250)
                 {
                     vent.interaction(window, player, sf::IntRect(192, 0, 192, 128));
-                    hasWon = true;
+                    
                 }
             }
             //-------------------------------------------------------------\\
@@ -347,7 +347,11 @@ int main()
            
             player.CheckFall(); //checks if player should fall off trash
 
-
+             // Check win condition
+            if (vent.getInteracted() && player.getIsOnTrash()) {
+                hasWon = true;
+                //isGameOver = true;
+            }
             //Draw Objects
             vent.draw(window);
             bed.draw(window);
