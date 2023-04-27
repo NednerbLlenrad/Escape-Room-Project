@@ -472,9 +472,16 @@ int main()
 
                         if (restartButton.getGlobalBounds().contains(mousePos)) {
                             // Perform restart action
+                            resetGame(countdownTime, player, clock, trashcan, bed, chain, toilet, sink, chair, vent, trashCheck, chairCheck);
                             isGameOver = false;
                             hasWon = false;
                             isRestart = true;
+                            screwDriverFound = false;
+                            nailFileFound = false;
+                            player.setHasNailFile(false);
+                            player.setHasScrewDriver(false);
+                            screwDriver.setIsPickedUp(false);
+                            nailFile.setIsPickedUp(false);
                             break; // Exit the nested loop
                         }
                         else if (quitButton.getGlobalBounds().contains(mousePos)) {
@@ -483,11 +490,17 @@ int main()
                             window.close();
                             break; // Exit the nested loop
                         }
-                        else if (menuButton.getGlobalBounds().contains(mousePos)) {
+                        else if (menuButton.getGlobalBounds().contains(mousePos) && !isGameOver) {
                             // Perform menu action
                             isGameOver = true;
                             hasWon = false;
                             isMenu = true;
+                            screwDriverFound = false;
+                            nailFileFound = false;
+                            player.setHasNailFile(false);
+                            player.setHasScrewDriver(false);
+                            screwDriver.setIsPickedUp(false);
+                            nailFile.setIsPickedUp(false);
                             break; // Exit the nested loop
                         }
                     }
