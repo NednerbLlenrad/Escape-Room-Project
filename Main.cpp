@@ -329,8 +329,10 @@ int main()
             {                                                                                                         //Would also check for screwdriver once implemented.
                 if(vent.distanceY(player) > 250)
                 {
-                    vent.interaction(window, player, sf::IntRect(192, 0, 192, 128));
-                    hasWon = true;
+                    if(vent.interaction(window, player, sf::IntRect(192, 0, 192, 128))==true)
+                    {
+                        hasWon = true;
+                    }
                 }
             }
             //-------------------------------------------------------------\\
