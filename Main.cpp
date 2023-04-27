@@ -116,6 +116,17 @@ int main()
     sf::Text startButtonText("START", font, 30);
     startButtonText.setPosition(440, 405); // Set label position
 
+    TextPopup controlText;
+    controlText.setFont(font);
+    controlText.setString("Q : CLIMB\nX : PICKUP ITEM\nE : INTERACT");
+    controlText.setBG(sf::RectangleShape(sf::Vector2f(375, 110)));
+    controlText.setPosition(sf::Vector2f(75, 600));
+    controlText.setActive(true);
+
+    sf::Text directionsText("Directions: the goal of this game\nis to escape. In order to do this\nhowever, you must gather the\nappropriate tools, and employ them\nin such a manner that allows you\nto escape.", font, 15);
+    directionsText.setPosition(500, 600);
+
+
     //--------------------------------------END GAME BUTTONS ----------------------------------------------\\ 
 
     // Create a boolean variable to track whether the game is over or not
@@ -409,6 +420,8 @@ int main()
             window.draw(titleText);
             window.draw(startButton);
             window.draw(startButtonText);
+            controlText.draw(window);
+            window.draw(directionsText);
         }
 
         // If the game is over, draw the "GAME OVER" message, restart button, quit button, and menu button

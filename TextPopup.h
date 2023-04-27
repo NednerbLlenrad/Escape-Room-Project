@@ -9,7 +9,6 @@ private:
 	sf::Text mText; // text
 	sf::RectangleShape mTextBG; // text background, may want to change to a texture in the future
 	
-	int mTimeLeft;
 	bool isActive;
 public:
 	TextPopup();
