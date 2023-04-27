@@ -177,7 +177,6 @@ int main()
     bool isRestart = false;
     bool isQuit = false;
     
-    
 
 
     // wait for the window to be closed
@@ -458,6 +457,8 @@ int main()
             sf::Text menuButtonText("MENU", font, 30);
             menuButtonText.setPosition(460, 525);
 
+            
+
             while (window.isOpen()) {
                 // ...
 
@@ -514,8 +515,10 @@ int main()
                 window.display();
             }
         }
-
-        // If the quit button is clicked, close the window and end the game
+        if (isQuit) {
+            window.close();
+            break;
+        }
 
         // Display the window (only once per frame)
         window.display();
